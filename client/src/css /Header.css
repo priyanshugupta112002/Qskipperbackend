@@ -2,7 +2,8 @@
     width: 100%;
     min-height: 100vh;
     background: #9090ca;
-    padding: 0 272px;
+    padding: 0;
+    margin: 0 ;
 
 }
 
@@ -10,6 +11,7 @@
 
 .navbar{
     width: 100%;
+    height: 10%;
     display: flex;
     /* flex-wrap: wrap; */
   justify-content: space-between;
@@ -36,6 +38,7 @@
 
 .search-box{
     display: flex;
+    width: 32%;
     align-items: center;
     background: #242424;
     padding: 10px 20px;
@@ -67,15 +70,69 @@
 
 
 .HomePage{
-   
     margin: 0 0 ;
     width: 100%;
     height: 90vh;
     display: flex;
-    justify-content: space-between;
-    
-    
+    justify-content: flex-start;
+    background: #a1a1d4;
+} 
+
+.segment-screen{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 80px;
 }
+
+
+/* // segmented */
+.segmented-button{
+    display: flex;
+    height: 60px;
+    width: 80%;
+    margin: 60px auto;
+}
+ /* Button .segmented-button {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    
+  } */
+  
+  .segment {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 36px;
+  }
+  
+  .segment:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .segment.selected {
+    background-color: #007bff;
+    color: white;
+    font-size: larger;
+    font-weight: 700;
+  }
+  
+  .segment:not(:last-child) {
+    border-right: 1px solid #ccc;
+  }
+
+
+  .ActiveOrder{
+    margin: 20px 40px;
+  }
+
+    
+/* }
 .HomePage-right-box{
     
     margin: auto;
@@ -105,4 +162,4 @@
 .Home-Page-col-2{
     background-color: #cfdb82;
     width: 75%;
-}
+} */

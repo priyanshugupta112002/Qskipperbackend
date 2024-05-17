@@ -1,14 +1,20 @@
 import React from "react";
 import Layout from "../Layouts/Layout";
 import  "../../css /Header.css"
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
+import SegmentedButton from "../Layouts/segmentedButton";
 
 const HomePage = ()=>{
+
+
     return (
-        <>
         <Layout>
             <div className="HomePage">
-                <div className="Home-Page-col-1">
+
+            <SegmentedButton options={["Active Order" , "About Resturant" , "Products"]}  />
+
+
+                {/* <div className="Home-Page-col-1">
                     <div className="HomePage-right-box">
                         <div className="Home-Page-col-1-row-1">
                             <NavLink to = "/" style={{ textDecoration: 'none', color: 'black', fontSize: '25px' }}> Order</NavLink>
@@ -33,16 +39,10 @@ const HomePage = ()=>{
 
                     <div>
                         <div></div>
-                    </div>
-                </div>
+                    </div> */}
+                {/* </div> */}
             </div>
-
-
-
-
         </Layout>
-
-        </>
     )
 }
 export default HomePage

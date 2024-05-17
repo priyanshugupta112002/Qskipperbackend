@@ -17,9 +17,14 @@ const productSchema = mongoose.Schema({
         type:String,
         require:true
     },
-    available:{
+    availability:{
         type:Boolean,
         default:true,
+    },
+    food_option:{
+        type:String,
+        enum:["Veg" , "Non-Veg"],
+        require:true,
     }
 })
 

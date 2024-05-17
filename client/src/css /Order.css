@@ -1,0 +1,36 @@
+.order-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    margin: 20px;
+    text-decoration: none;
+  }
+  
+  .grid-header, .grid-row {
+    display: contents;
+  }
+  
+  .grid-header div, .grid-row div {
+    border-radius: 10px;
+    padding: 1px;
+    height: 40px;
+    border: 2px #fff solid;
+    text-align: center;
+    font-size: 21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .grid-header {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  .grid-row:nth-child(even) {
+    background-color: #f9f9f9;                                                                                                                                                                                                                                     
+  }
+  
+  .grid-List{
+    background-color: #f0f0f0
+  }

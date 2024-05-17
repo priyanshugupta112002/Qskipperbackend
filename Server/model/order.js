@@ -16,6 +16,10 @@ const orderSchema = new mongoose.Schema({
                 type:String,
                 require:true
             },
+            quantity:{
+                type:Number,
+                require:true
+            },
             price:{
                 type:Number,
                 require:true
@@ -34,6 +38,7 @@ const orderSchema = new mongoose.Schema({
     placedAt:{
         type:Date,
         default:Date.now(),
+        require:true
     },
     scheduledAt:{
         type:Date,   
