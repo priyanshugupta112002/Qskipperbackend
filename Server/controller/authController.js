@@ -1,48 +1,55 @@
-const express =require("express")
-const { UserSchema } = require("../model/user")
-const { compare } = require("bcrypt")
-const jwt = requie("jsonwebtoken")
+const  UserSchema  = require("../model/user")
+const jwt = require("jsonwebtoken")
+const {hashedPassword , comparePassword} = require("../passwordEncryption/passwordEncryption")
+
+
 
 const userRegisterController =async(req,res)=>{
 
    try {
-    const { name ,email ,password ,phoneNumber} = req.body
-
-    if (!name || !email || !password || !phoneNumber){
-        res.status(400).send({
-            success:false,
-            message:"incomplete Credentials"
-        })
-        const emailExist = await UserSchema.findOne({email})
-        if (emailExist){
-            res.status(400).send({
+        const { name ,email ,password ,phoneNumber} = req.body
+        console.log(name, email , password)
+        if (!name || !email || !password || !phoneNumber){
+             return res.status(400).json({
                 success:false,
-                message:"Email Already Exist"
+                message:"incomplete Credentials",
+                name, email,password
+
             })
         }
-        const hashedPassword = await becyrptPassord({password})
+        const emailExist = await UserSchema.findOne({email})
+        if (emailExist){
+                 return res.status(400).send({
+                    success:false,
+                    message:"Email Already Exist"
+                })
+        }
+        const hashed = await hashedPassword(password)
+
         const user = new UserSchema({
-            fullName:name,
-            email,
-            password:hashedPassword,
-            phoneNumber
+                name,
+                email,
+                password:hashed,
+                phoneNumber
         })
+        await user.save()
         res.status(202).json({
-            success:true,
-            user,
-            message:"user has been created"
+                success:true,
+                user,
+                message:"user has been created"
         })
-    }
+        
     
    } catch (error) {
     console.log(error)
+
    }
 
 }
 
 const loginController = async(req,res)=>{
     try {
-        const [email ,password]=req.body
+        const {email ,password} =req.body
 
         if(!email || !password){
             res.status(400).send({
@@ -50,35 +57,45 @@ const loginController = async(req,res)=>{
                 message:"incomplete Credentials"
             })
         }
-        const user = await UserSchema.find({email})
-        if (user){
-            const samePassword = compare(password ,user.password)
+        const userExist = await UserSchema.findOne({email})
+        if (userExist){
+            const samePassword = await comparePassword(password ,userExist.password)
+         
             if (samePassword){
-                const token = await jwt({_id  : user._id} , process.env.secret_key ,{
-                    exprires: "7d"
+                console.log(userExist._id , process.env.secret_key)
+                const token =  jwt.sign({ _id  : userExist._id} , process.env.secret_key,{
+                    expiresIn: "7d"
                 })
-    
-                return res.status(202).json({
+            
+                res.status(201).json({
                     user:{
-                        id:user._id,
-                        fullName:user.fullName,
-                        email:user.email,
-                        password:user.password,
-                        phoneNumber:phoneNumber
+                        id:userExist._id,
+                        name:userExist.name,
+                        email:userExist.email,
+                        password:userExist.password,
+                        phoneNumber:userExist.phoneNumber
                     },token,
                     success:true,
                     message:"user have been login"
                 })
+            }else{
+                res.status(400).send({
+                    success:false,
+                    message:"Invalid Credentials",
+                    error
+                })
             }
-        }
-        return res.status(400).send({
+        }else{
+
+         res.status(400).send({
             success:false,
             message:"Invalid Credentials",
             error
         })
+    }
         
     } catch (error) {
-        console.log("login c(ontroller issue")
+        console.log("login Controller issue")
         res.status(400).send({
             success:false,
             message:" Error in login credentials"

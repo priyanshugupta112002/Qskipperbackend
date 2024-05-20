@@ -23,8 +23,12 @@ const productSchema = mongoose.Schema({
     },
     food_option:{
         type:String,
-        enum:["Veg" , "Non-Veg"],
+        enum:["Veg","Non-Veg"],
         require:true,
+    },
+    resturant:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"resturants",
     }
 })
 

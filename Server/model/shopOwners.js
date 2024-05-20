@@ -20,13 +20,9 @@ const resturantSchema = new mongoose.Schema({
         default:0
     },
     bannerPhoto:{
-        type:Buffer,
+        data:Buffer,
         contentType:String,
     },
-    products:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'product'
-    }],
     cuisines:[{
         type:String,
         emun :["South Indian" , "North Indian" , "Fast Food" , "Chinese"],
@@ -35,5 +31,5 @@ const resturantSchema = new mongoose.Schema({
 
 
 });
-const ResturantSchema = mongoose.model('resturant', resturantSchema)
-module.exports(ResturantSchema)
+const ResturantSchema = mongoose.model('resturants', resturantSchema)
+module.exports = {ResturantSchema}

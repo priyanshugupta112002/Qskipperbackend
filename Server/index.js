@@ -4,7 +4,8 @@ const morgan = require("morgan");
 const { connectDB } =require("./config/db")
 
 
-const app=express()
+
+const app = express()
 dotenv.config()
 
 
@@ -15,6 +16,11 @@ app.use(express.json())
 app.use(morgan("dev"))
 app.use(express.static("public"))
 
+
+
+app.use(require("./routes/auth"))
+app.use(require("./routes/product"))
+app.use(require("./routes/resturantRoutes"))
 
 
 const PORT = process.env.PORT || 8080
