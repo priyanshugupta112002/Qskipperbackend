@@ -11,7 +11,7 @@ const registerResturantComtroller = async(req,res)=>{
         const {user ,  resturantName ,  estimatedTime , cuisines }  = req.fields
         const {bannerPhoto} = req.files
 
-        if(!users , ! resturantName , !estimatedTime , !cuisines ){
+        if(!user , ! resturantName , !estimatedTime , !cuisines ){
             return res.status(400).json({
                 success:false,
                 message:"Missing credentails"
@@ -25,7 +25,7 @@ const registerResturantComtroller = async(req,res)=>{
         //         message:"one or two cuisines should be there"
         //     })
         // }
-        if(!bannerPhoto || bannerPhoto.size > 10000000){
+        if(!bannerPhoto || bannerPhoto.size > 6000000){
             return res.status(400).json({
                 success:false,
                 message:"Banner photo should be ther or photo should be less than 5.5 mb"
@@ -57,7 +57,6 @@ const registerResturantComtroller = async(req,res)=>{
 const get_All_resturant = async(req,res)=>{
 
     try {
-
         const Resturanrt = await ResturantSchema.find({}).select("-photo").populate("user")
         res.status(200).json({
             success:true,
@@ -72,11 +71,31 @@ const get_All_resturant = async(req,res)=>{
             message:error
         })
     }
+}
 
+const get_Retrurant_Photo = async(req,res)=>{
+    try {
+        const {pid} =req.params
 
+        const product_photo = await ResturantSchema.findById({_id:pid}).select("photo")
+        if(product_photo){
+            res.set('Content-type' , product_photo.photo.contentType)
+        }
+        res.status(200).json({
+            product_photo,
+            success:true
+        })
 
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            success:false,
+            message:"error to fetch the Resturant banner phtoto"
+        })
+    }
 
 }
 
 
-module.exports = {registerResturantComtroller , get_All_resturant}
+
+module.exports = {registerResturantComtroller , get_All_resturant , get_Retrurant_Photo}
