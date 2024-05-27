@@ -10,4 +10,7 @@ Router.get('/get_all_product' , get_All_Product)
 
 Router.get("/get_product_photo/:pid" , get_Product_Photo)
 
+
+
+
 module.exports = Router

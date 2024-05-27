@@ -8,10 +8,10 @@ const registerResturantComtroller = async(req,res)=>{
 
     try {
         console.log(req.fields)
-        const {user ,  resturantName ,  estimatedTime , cuisines }  = req.fields
+        const {user ,  resturantName  , cuisines }  = req.fields
         const {bannerPhoto} = req.files
 
-        if(!user , ! resturantName , !estimatedTime , !cuisines ){
+        if(!user || ! resturantName  || !cuisines ){
             return res.status(400).json({
                 success:false,
                 message:"Missing credentails"
