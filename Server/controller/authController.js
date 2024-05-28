@@ -7,8 +7,8 @@ const {hashedPassword , comparePassword} = require("../passwordEncryption/passwo
 const userRegisterController =async(req,res)=>{
 
    try {
-        const { name ,email , securityCode} = req.body
-        console.log(name, email , password)
+        const { password ,email , securityCode} = req.body
+        console.log(securityCode, email , password)
         if (  !email || !password || ! securityCode){
              return res.status(400).json({
                 success:false,
