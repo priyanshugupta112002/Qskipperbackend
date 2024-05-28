@@ -19,7 +19,7 @@ const userRegisterController =async(req,res)=>{
         }
         const emailExist = await UserSchema.findOne({email})
         if (emailExist){
-                 return res.status(400).send({
+                 return res.status(400).json({
                     success:false,
                     message:"Email Already Exist"
                 })
