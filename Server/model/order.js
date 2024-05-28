@@ -30,18 +30,19 @@ const orderSchema = new mongoose.Schema({
         type:String,
         require:true
     },
+    packed:{
+        type:Boolean,
+        default:false,
+    },
     status:{
         type:String,
         require:true,
         emun :["Placed" , "Preparing" , "Prepared" , "Picked Up"]
     },
-    placedAt:{
-        type:Date,
-        default:Date.now(),
-        require:true
-    },
     scheduledAt:{
         type:Date,   
+        default:Date.now(),
+        require:true
     }
 })
 

@@ -26,11 +26,7 @@ const productSchema = mongoose.Schema({
         enum:["Veg","Non-Veg"],
         require:true,
     },
-    estimatedTime:{
-        type:Number,
-        require:true,
-        default:5
-    },
+    
     extraTime:{
         type:Number,
         require:true,

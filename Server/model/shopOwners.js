@@ -14,11 +14,6 @@ const resturantSchema = new mongoose.Schema({
         require:true,
         default:5
     },
-    extraTime:{
-        type:Number,
-        require:true,
-        default:0
-    },
     bannerPhoto:{
         data:Buffer,
         contentType:String,

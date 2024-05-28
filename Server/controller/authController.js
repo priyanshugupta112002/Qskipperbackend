@@ -7,9 +7,9 @@ const {hashedPassword , comparePassword} = require("../passwordEncryption/passwo
 const userRegisterController =async(req,res)=>{
 
    try {
-        const { name ,email ,password ,phoneNumber} = req.body
+        const { name ,email , securityCode} = req.body
         console.log(name, email , password)
-        if (!name || !email || !password || !phoneNumber){
+        if (  !email || !password || ! securityCode){
              return res.status(400).json({
                 success:false,
                 message:"incomplete Credentials",
@@ -27,10 +27,10 @@ const userRegisterController =async(req,res)=>{
         const hashed = await hashedPassword(password)
 
         const user = new UserSchema({
-                name,
+            
                 email,
                 password:hashed,
-                phoneNumber
+                securityCode
         })
         await user.save()
         res.status(202).json({
