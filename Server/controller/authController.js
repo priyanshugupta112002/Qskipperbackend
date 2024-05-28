@@ -33,11 +33,7 @@ const userRegisterController =async(req,res)=>{
                 securityCode
         })
         await user.save()
-        res.status(202).json({
-                success:true,
-                user,
-                message:"user has been created"
-        })
+        res.status(202)
         
     
    } catch (error) {
@@ -63,21 +59,11 @@ const loginController = async(req,res)=>{
          
             if (samePassword){
                 console.log(userExist._id , process.env.secret_key)
-                const token =  jwt.sign({ _id  : userExist._id} , process.env.secret_key,{
-                    expiresIn: "7d"
-                })
+                // const token =  jwt.sign({ _id  : userExist._id} , process.env.secret_key,{
+                //     expiresIn: "7d"
+                // })
             
-                res.status(201).json({
-                    user:{
-                        id:userExist._id,
-                        name:userExist.name,
-                        email:userExist.email,
-                        password:userExist.password,
-                        phoneNumber:userExist.phoneNumber
-                    },token,
-                    success:true,
-                    message:"user have been login"
-                })
+                res.status(202)
             }else{
                 res.status(400).send({
                     success:false,
