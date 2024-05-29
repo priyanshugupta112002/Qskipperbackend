@@ -38,7 +38,8 @@ const userRegisterController =async(req,res)=>{
                 user:{
                     email,
                     password,
-                    securityCode
+                    securityCode,
+                    _id
                 }
         })
         
