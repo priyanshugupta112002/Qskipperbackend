@@ -35,7 +35,11 @@ const userRegisterController =async(req,res)=>{
         await user.save()
         console.log(user)
         res.status(202).json({ 
-                user
+                user:{
+                    email,
+                    password,
+                    securityCode
+                }
         })
         
     
