@@ -27,20 +27,15 @@ const userRegisterController =async(req,res)=>{
         const hashed = await hashedPassword(password)
 
         const user = new UserSchema({
+            
                 email,
                 password:hashed,
-                securityCode,
-                _id
+                securityCode
         })
         await user.save()
         console.log(user)
         res.status(202).json({ 
-                user:{
-                    email,
-                    password,
-                    securityCode,
-                    _id
-                }
+                user
         })
         
     
