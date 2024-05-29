@@ -62,21 +62,8 @@ const loginController = async(req,res)=>{
             const samePassword = await comparePassword(password ,userExist.password)
          
             if (samePassword){
-                console.log(userExist._id , process.env.secret_key)
-                const token =  jwt.sign({ _id  : userExist._id} , process.env.secret_key,{
-                    expiresIn: "7d"
-                })
-            
                 res.status(202).json({
-                    user:{
-                        id:userExist._id,
-                        name:userExist.name,
-                        email:userExist.email,
-                        password:userExist.password,
-                        phoneNumber:userExist.phoneNumber
-                    },token,
-                    success:true,
-                    message:"user have been login"
+                    success:true
                 })
             }else{
                 res.status(400).send({
