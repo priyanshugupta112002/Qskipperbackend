@@ -36,8 +36,7 @@ const userRegisterController =async(req,res)=>{
         await user.save()
         console.log(user)
         res.status(202).json({
-                success:true, 
-                user
+                id:user._id
         })
         
     
@@ -64,9 +63,8 @@ const loginController = async(req,res)=>{
          
             if (samePassword){
                 res.status(202).json({
-                    user:{
                         id:userExist._id
-                    }
+                    
                 })
             }else{
                 res.status(400).send({

@@ -31,7 +31,7 @@ const registerResturantComtroller = async(req,res)=>{
         }
         await newRseturant.save()
 
-        res.status(200).json({
+        res.status(202).json({
             success:true,
             message:"Resturnat is been registered",
             newRseturant:{
@@ -54,7 +54,7 @@ const get_All_resturant = async(req,res)=>{
 
     try {
         const Resturanrt = await ResturantSchema.find({}).select("-bannerPhoto -user")
-        res.status(200).json({
+        res.status(202).json({
             Resturanrt
         })
         
@@ -75,7 +75,7 @@ const get_Retrurant_Photo = async(req,res)=>{
         if(product_photo){
             res.set('Content-type' , product_photo.photo.contentType)
         }
-        res.status(200).json({
+        res.status(202).json({
             product_photo,
             success:true
         })
