@@ -8,23 +8,16 @@ const registerResturantComtroller = async(req,res)=>{
 
     try {
         console.log(req.fields)
-        const {user ,  resturantName  , cuisines }  = req.fields
+        const {user ,  resturantName  , cuisines , estimatedTime}  = req.fields
         const {bannerPhoto} = req.files
 
-        if(!user || ! resturantName  || !cuisines ){
+        if(!user || ! resturantName  || !cuisines || !estimatedTime){
             return res.status(400).json({
                 success:false,
                 message:"Missing credentails"
             })
         }
-        // console.log(cuisines)
-        // console.log(cuisines.length)
-        // if(cuisines.length  > 2 || cuisines.length < 1){
-        //     return res.status(400).json({
-        //         success:false,
-        //         message:"one or two cuisines should be there"
-        //     })
-        // }
+     
         if(!bannerPhoto || bannerPhoto.size > 6000000){
             return res.status(400).json({
                 success:false,
@@ -41,7 +34,10 @@ const registerResturantComtroller = async(req,res)=>{
         res.status(200).json({
             success:true,
             message:"Resturnat is been registered",
-            newRseturant
+            newRseturant:{
+                id:newRseturant._id,
+                name:newRseturant.name
+            }
         })
         
     } catch (error) {
