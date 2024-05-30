@@ -57,7 +57,7 @@ const registerResturantComtroller = async(req,res)=>{
 const get_All_resturant = async(req,res)=>{
 
     try {
-        const Resturanrt = await ResturantSchema.find({}).select("-bannerPhoto")
+        const Resturanrt = await ResturantSchema.find({}).select("-bannerPhoto -user")
         res.status(200).json({
             Resturanrt
         })
