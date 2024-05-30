@@ -54,7 +54,7 @@ const get_All_resturant = async(req,res)=>{
 
     try {
         const Resturanrt = await ResturantSchema.find({}).select("-bannerPhoto -user")
-        res.status(202).json({
+        res.status(200).json({
             Resturanrt
         })
         
