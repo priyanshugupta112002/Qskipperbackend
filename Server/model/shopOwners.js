@@ -18,13 +18,10 @@ const resturantSchema = new mongoose.Schema({
         data:Buffer,
         contentType:String,
     },
-    cuisines:[{
+    cuisines:{
         type:String,
-        emun :["South Indian" , "North Indian" , "Fast Food" , "Chinese"],
         require:true
-    }],
-
-
+    }
 });
 const ResturantSchema = mongoose.model('resturants', resturantSchema)
 module.exports = {ResturantSchema}

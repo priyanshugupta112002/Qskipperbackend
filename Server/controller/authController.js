@@ -18,6 +18,7 @@ const userRegisterController =async(req,res)=>{
             })
         }
         const emailExist = await UserSchema.findOne({email})
+       
         if (emailExist){
                  return res.status(400).json({
                     success:false,
@@ -63,7 +64,9 @@ const loginController = async(req,res)=>{
          
             if (samePassword){
                 res.status(202).json({
-                    success:true
+                    user:{
+                        id:userExist._id
+                    }
                 })
             }else{
                 res.status(400).send({
