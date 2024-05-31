@@ -66,12 +66,14 @@ const get_All_resturant = async(req,res)=>{
 }
 
 const get_Retrurant_Photo = async(req,res)=>{
-    try {
-        const {pid} =req.params
 
+    try {
+        console.log("gvhn")
+        const {pid} =req.params
+        console.log(pid)
         const restaurant_photo = await ResturantSchema.findById({_id:pid}).select("bannerPhoto")
-        if(product_photo){
-            res.set('Content-type' , product_photo.photo.contentType)
+        if(restaurant_photo){
+            res.set('Content-type' , restaurant_photo.bannerPhoto.contentType)
         }
         res.status(202).json({
             restaurant_photo
