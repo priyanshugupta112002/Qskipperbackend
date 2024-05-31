@@ -69,13 +69,12 @@ const get_Retrurant_Photo = async(req,res)=>{
     try {
         const {pid} =req.params
 
-        const product_photo = await ResturantSchema.findById({_id:pid}).select("photo")
+        const restaurant_photo = await ResturantSchema.findById({_id:pid}).select("bannerPhoto")
         if(product_photo){
             res.set('Content-type' , product_photo.photo.contentType)
         }
         res.status(202).json({
-            product_photo,
-            success:true
+            restaurant_photo
         })
 
     } catch (error) {

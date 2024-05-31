@@ -9,7 +9,7 @@ Router.post("/register-restaurant" ,formidableMiddleware(),  registerResturantCo
 
 Router.get("/get_All_Restaurant" , get_All_resturant)
 
-Router.get("/get_retrurant_Photo/:pid" , get_Retrurant_Photo)
+Router.get("/get_retaurant_photo/:pid" , get_Retrurant_Photo)
 
 
 module.exports = Router
