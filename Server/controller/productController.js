@@ -48,16 +48,16 @@ const createProductController = async(req,res)=>{
 const get_All_Product = async(req,res)=>{
     const {resturant_id} = req.body;
 
-    const all_product = await ProductSchema.find({resturant:resturant_id}).populate({
-        path: 'resturant',
-        select: '-bannerPhoto',
-        options: { strictPopulate: false }
-    })
-    if(all_product){
+    const All_Product = await ProductSchema.find({resturant:resturant_id})
+
+    // .populate({
+    //     path: 'resturant',
+    //     select: '-bannerPhoto',
+    //     options: { strictPopulate: false }
+
+    if(All_Product){
         res.status(200).json({
-            success:true,
-            totalProduct:all_product.length,
-            all_product,
+            All_Product,
         })
     }
 }
