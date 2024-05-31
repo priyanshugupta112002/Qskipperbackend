@@ -9,11 +9,11 @@ const userRegisterController =async(req,res)=>{
    try {
         const { password ,email , securityCode} = req.body
         console.log(securityCode, email , password)
-        if (  !email || !password || ! securityCode){
+        if (  !email || !password || !securityCode){
              return res.status(400).json({
                 success:false,
                 message:"incomplete Credentials",
-                 email,password
+                 email,password,securityCode
 
             })
         }
@@ -42,6 +42,7 @@ const userRegisterController =async(req,res)=>{
     
    } catch (error) {
     console.log(error)
+    res.status(400)
 
    }
 

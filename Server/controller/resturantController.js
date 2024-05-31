@@ -33,7 +33,6 @@ const registerResturantComtroller = async(req,res)=>{
 
         res.status(202).json({
             success:true,
-            message:"Resturnat is been registered",
             user:{
                 id:newRseturant._id,
             }
