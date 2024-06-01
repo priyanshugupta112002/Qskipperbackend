@@ -5,7 +5,7 @@ const resturantSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"users"
     },
-    resturantName:{
+    restaurant_Name:{
         type:String,
         require:true
     },
@@ -14,11 +14,15 @@ const resturantSchema = new mongoose.Schema({
         require:true,
         default:5
     },
-    bannerPhoto:{
-        data:Buffer,
-        contentType:String,
+    bannerPhoto64Image:{
+        type:String,
+        require:true
     },
-    cuisines:{
+    cuisine:{
+        type:String,
+        require:true
+    },
+    rating:{
         type:String,
         require:true
     }

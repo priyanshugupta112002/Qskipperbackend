@@ -7,43 +7,27 @@ const fs = require("fs")
 const registerResturantComtroller = async(req,res)=>{
 
     try {
-        console.log(req.fields)
-        const {user ,  resturantName  , cuisines , estimatedTime}  = req.fields
-        const {bannerPhoto} = req.files
-
-        if(!user || ! resturantName  || !cuisines || !estimatedTime){
-            return res.status(400).json({
-                success:false,
-                message:"Missing credentails"
-            })
+        console.log(req.body)
+        const {user ,  restaurant_Name  , cuisine , estimatedTime , bannerPhoto64Image}  = req.body
+    
+        if(!user || ! restaurant_Name  || !cuisine || !estimatedTime || !bannerPhoto64Image) {
+            return res.status(400)
         }
-     
-        if(!bannerPhoto || bannerPhoto.size > 6000000){
-            return res.status(400).json({
-                success:false,
-                message:"Banner photo should be ther or photo should be less than 5.5 mb"
-            })
-        }
-        const newRseturant = await ResturantSchema({...req.fields})
-        if (bannerPhoto){
-            newRseturant.bannerPhoto.data = fs.readFileSync(bannerPhoto.path)
-            newRseturant.bannerPhoto.contentType = bannerPhoto.type
-        }
+        const newRseturant = await ResturantSchema({
+            user,
+            restaurant_Name,
+            cuisine,
+            estimatedTime,
+            bannerPhoto64Image
+        })
+       
         await newRseturant.save()
 
-        res.status(202).json({
-            success:true,
-            user:{
-                id:newRseturant._id,
-            }
-        })
+        res.status(202)
         
     } catch (error) {
         console.log(error)
-        return res.status(404).json({
-            success:false,
-            message:error
-        })
+        return res.status(404)
     }
 }
 
