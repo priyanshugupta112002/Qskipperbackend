@@ -7,8 +7,7 @@ const fs = require("fs")
 const registerResturantComtroller = async(req,res)=>{
 
     try {
-        console.log("backend")
-        console.log(req.body)
+      
         const {user ,  restaurant_Name  , cuisine , estimatedTime , bannerPhoto64Image}  = req.body
     
         if(!user || ! restaurant_Name  || !cuisine || !estimatedTime || !bannerPhoto64Image) {
@@ -24,7 +23,9 @@ const registerResturantComtroller = async(req,res)=>{
        
         await newRseturant.save()
 
-        res.status(202)
+        res.status(202).json({
+            
+        })
         
     } catch (error) {
         console.log(error)
