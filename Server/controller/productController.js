@@ -6,11 +6,11 @@ const createProductController = async(req,res)=>{
 
    try {
         
-        console.log(req.body)
+        // console.log(req.body)
         const { product_name ,product_photo64Image, product_price , food_category , restaurant_id , description , extraTime} =  req.body
-        
+        console.log(product_name ,product_photo64Image, product_price , food_category , restaurant_id , description , extraTime)
 
-        if (!product_name || !product_photo64Image || !product_price || !food_category ,  !restaurant_id || !description || !extraTime){
+        if (!product_name || !product_photo64Image || !product_price || !food_category || !restaurant_id || !description ){
                 res.status(400).send({
                 success:false,
                 message:"incomplete Credentials"
