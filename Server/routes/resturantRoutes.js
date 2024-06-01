@@ -1,10 +1,9 @@
 const express = require("express")
 const { registerResturantComtroller , get_All_resturant, get_Retrurant_Photo } = require("../controller/resturantController")
-const formidableMiddleware = require('express-formidable');
 const Router = express.Router()
 
 
-Router.post("/register-restaurant" ,formidableMiddleware(),  registerResturantComtroller)
+Router.post("/register-restaurant" ,  registerResturantComtroller)
 
 
 Router.get("/get_All_Restaurant" , get_All_resturant)
