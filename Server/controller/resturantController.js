@@ -24,7 +24,7 @@ const registerResturantComtroller = async(req,res)=>{
         await newRseturant.save()
 
         res.status(202).json({
-            
+
         })
         
     } catch (error) {
@@ -57,10 +57,8 @@ const get_Retrurant_Photo = async(req,res)=>{
         console.log("gvhn")
         const {pid} =req.params
         console.log(pid)
-        const restaurant_photo = await ResturantSchema.findById({_id:pid}).select("bannerPhoto")
-        if(restaurant_photo){
-            res.set('Content-type' , restaurant_photo.bannerPhoto.contentType)
-        }
+        const restaurant_photo = await ResturantSchema.findById({_id:pid}).select("bannerPhoto64Image")
+        
         res.status(202).json({
             restaurant_photo
         })
