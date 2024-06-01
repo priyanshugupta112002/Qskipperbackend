@@ -2,18 +2,18 @@ const mongoose = require("mongoose")
 
 
 const productSchema = mongoose.Schema({
-    name:{
+    product_name:{
         type:String,
         require:true
     },
-    photo:{
-        data:Buffer,
-        contentType:String
+    product_photo64Image:{
+        type:String,
+        require:true
     },
     ratinge:{
         type:String,
     },
-    price:{
+    product_price:{
         type:String,
         require:true
     },
@@ -21,18 +21,20 @@ const productSchema = mongoose.Schema({
         type:Boolean,
         default:true,
     },
-    food_option:{
+    food_category:{
         type:String,
-        enum:["Veg","Non-Veg"],
         require:true,
     },
-    
+    description:{
+        type:String,
+        require:true,
+    },
     extraTime:{
         type:Number,
         require:true,
         default:0
     },
-    resturant:{
+    restaurant_id:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"resturants",
     }
