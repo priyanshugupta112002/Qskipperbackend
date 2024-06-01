@@ -32,14 +32,12 @@ const registerResturantComtroller = async(req,res)=>{
         return res.status(404)
     }
 }
-
-
 const get_All_resturant = async(req,res)=>{
 
     try {
-        const Resturanrt = await ResturantSchema.find({}).select("-bannerPhoto64Image -user")
+        const Restaurant = await ResturantSchema.find({}).select("-bannerPhoto64Image -user")
         res.status(200).json({
-            Resturanrt
+            Restaurant
         })
         
     } catch (error) {
