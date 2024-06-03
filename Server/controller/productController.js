@@ -38,7 +38,7 @@ const createProductController = async(req,res)=>{
 }
 const get_All_Product = async(req,res)=>{
    try {
-
+    console.log("ekcwec")
     const {Resturant_id} = req.params;
     console.log(resturant_id)
     const All_Product = await ProductSchema.find({restaurant_id:Resturant_id}).select("-extraTime").sort({availability :true})
