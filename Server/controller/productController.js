@@ -1,5 +1,5 @@
-const fs = require("fs")
 const { ProductSchema } = require("../model/product")
+const { ResturantSchema } = require("../model/shopOwners")
 
 
 const createProductController = async(req,res)=>{
@@ -36,29 +36,59 @@ const createProductController = async(req,res)=>{
 
 
 }
-const get_All_Product = async(req,res)=>{
-   try {
-    console.log("ekcwec")
-    const {Resturant_id} = req.params;
-    console.log(resturant_id)
-    const All_Product = await ProductSchema.find({restaurant_id:Resturant_id}).select("-extraTime").sort({availability :true})
-    console.log(All_Product)
-    // .populate({
-    //     path: 'resturant',
-    //     select: '-bannerPhoto',
-    //     options: { strictPopulate: false }
+// const get_All_Product = async(req,res)=>{
+//    try {
 
-    if(All_Product){
-        res.status(200).json({
-            All_Product
-        })
-    }
+//     const {pid} = req.params;
+//     console.log(pid)
+
+//      const products = await ProductSchema.find({ restaurant_id: pid })
+//     .select("-product_photo64Image -extraTime")
+//     .populate({
+//         path: 'restaurants',
+//         select: '-bannerPhoto64Image',
+//         options: { strictPopulate: false }
+//     });
+
+//     console.log(products)
 
     
-   } catch (error) {
-        res.status(404)
-   }
-}
+//    } catch (error) {
+//         res.status(404)
+//    }
+// }
+
+
+
+const get_All_Product = async(req, res) => {
+    try {
+        const { pid } = req.params;
+        console.log(pid);
+
+        const product = await ProductSchema.find({ restaurant_id: pid })
+          
+            .populate({
+                path: 'restaurant_id', // Correctly reference the field for populating
+                select: '-bannerPhoto64Image',
+                options: { strictPopulate: false }
+            });
+
+        console.log(product);
+        if (product) {
+            res.status(200).json(product); // Send the product object, not All_Product
+        } else {
+            res.status(404).json({ message: "Product not found" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+
+
+
 const get_Product_Photo = async(req,res)=>{
     try {
         const {pid} =req.params
