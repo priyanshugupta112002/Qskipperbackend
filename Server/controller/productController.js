@@ -65,13 +65,13 @@ const get_All_Product = async(req, res) => {
         const { pid } = req.params;
         console.log(pid);
 
-        const product = await ProductSchema.find({ restaurant_id: pid })
+        const product = await ProductSchema.find({ restaurant_id: pid }) .select("-product_photo64Image -extraTime")
           
-            .populate({
-                path: 'restaurant_id', // Correctly reference the field for populating
-                select: '-bannerPhoto64Image',
-                options: { strictPopulate: false }
-            });
+            // .populate({
+            //     path: 'restaurant_id', // Correctly reference the field for populating
+            //     select: '-bannerPhoto64Image',
+            //     options: { strictPopulate: false }
+            // });
 
         console.log(product);
         if (product) {
@@ -93,20 +93,18 @@ const get_Product_Photo = async(req,res)=>{
     try {
         const {pid} =req.params
 
-        const product_photo = await ProductSchema.findById({_id:pid}).select("photo")
-        if(product_photo){
-            res.set('Content-type' , product_photo.photo.contentType)
+        const product_photo = await ProductSchema.findById({_id:pid}).select("product_photo64Image ")
+        console.log(product);
+        if (product_photo) {
+            res.status(200).json(product_photo); // Send the product object, not All_Product
+        } else {
+            res.status(404)
         }
-        res.status(200).json({
-            product_photo,
-            success:true
-        })
 
 
     } catch (error) {
         console.log(error)
         res.status(400).json({
-            success:false,
             message:"error to fetch the product phtoto"
         })
     }
