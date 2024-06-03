@@ -12,6 +12,7 @@ const productSchema = new mongoose.Schema({
     },
     ratinge:{
         type:String,
+        default:0
     },
     product_price:{
         type:Number,
