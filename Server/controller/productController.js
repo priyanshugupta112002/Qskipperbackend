@@ -65,7 +65,7 @@ const get_All_Product = async(req, res) => {
         const { pid } = req.params;
         console.log(pid);
 
-        const product = await ProductSchema.find({ restaurant_id: pid }) .select("-product_photo64Image -extraTime")
+        const products = await ProductSchema.find({ restaurant_id: pid }) .select("-product_photo64Image -extraTime")
           
             // .populate({
             //     path: 'restaurant_id', // Correctly reference the field for populating
@@ -73,9 +73,9 @@ const get_All_Product = async(req, res) => {
             //     options: { strictPopulate: false }
             // });
 
-        console.log(product);
-        if (product) {
-            res.status(200).json(product); // Send the product object, not All_Product
+        console.log(products);
+        if (products) {
+            res.status(200).json({products}); // Send the product object, not All_Product
         } else {
             res.status(404).json({ message: "Product not found" });
         }
@@ -96,7 +96,7 @@ const get_Product_Photo = async(req,res)=>{
         const product_photo = await ProductSchema.findById({_id:pid}).select("product_photo64Image ")
         console.log(product);
         if (product_photo) {
-            res.status(200).json(product_photo); // Send the product object, not All_Product
+            res.status(200).json({product_photo}); // Send the product object, not All_Product
         } else {
             res.status(404)
         }
