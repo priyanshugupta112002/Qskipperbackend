@@ -37,9 +37,11 @@ const createProductController = async(req,res)=>{
 
 }
 const get_All_Product = async(req,res)=>{
-    const {resturant_id} = req.params;
+   try {
 
-    const All_Product = await ProductSchema.find({restaurant_id:resturant_id}).select("-extraTime").sort({availability :true})
+    const {Resturant_id} = req.params;
+    console.log(resturant_id)
+    const All_Product = await ProductSchema.find({restaurant_id:Resturant_id}).select("-extraTime").sort({availability :true})
     console.log(All_Product)
     // .populate({
     //     path: 'resturant',
@@ -48,9 +50,14 @@ const get_All_Product = async(req,res)=>{
 
     if(All_Product){
         res.status(200).json({
-            All_Product,
+            All_Product
         })
     }
+
+    
+   } catch (error) {
+        res.status(404)
+   }
 }
 const get_Product_Photo = async(req,res)=>{
     try {
