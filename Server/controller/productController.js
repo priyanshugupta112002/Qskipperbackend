@@ -96,7 +96,12 @@ const get_Product_Photo = async(req,res)=>{
         const product_photo = await ProductSchema.findById({_id:pid}).select("product_photo64Image ")
         console.log(product_photo);
         if (product_photo) {
-            res.status(200).json(product_photo); // Send the product object, not All_Product
+            res.status(200).json({
+                product_photo:{
+                    banner_photo64 : product_photo.product_photo64Image
+                }
+            }
+            ); // Send the product object, not All_Product
         } else {
             res.status(404)
         }
