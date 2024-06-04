@@ -13,6 +13,10 @@ const registerResturantComtroller = async(req,res)=>{
         if(!user || ! restaurant_Name  || !cuisine || !estimatedTime || !bannerPhoto64Image) {
             return res.status(400)
         }
+        const userExist = await ResturantSchema.findOne({user})
+        if (userExist){
+            res.status(404)
+        }
         const newRseturant = await ResturantSchema({
             user,
             restaurant_Name,
@@ -20,7 +24,6 @@ const registerResturantComtroller = async(req,res)=>{
             estimatedTime,
             bannerPhoto64Image
         })
-       
         await newRseturant.save()
 
         res.status(202).json({

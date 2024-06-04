@@ -118,4 +118,14 @@ const get_Product_Photo = async(req,res)=>{
 
 
 
-module.exports = {createProductController , get_All_Product , get_Product_Photo}
+const OrderPlaced = async(req,res)=>{
+    const Products = req.body
+    console.log(Products)
+}
+
+
+
+
+
+
+module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced}
