@@ -38,6 +38,10 @@ const productSchema = new mongoose.Schema({
     restaurant_id:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"resturants",
+    },
+    quantity:{
+        type:Number,
+        default:1
     }
 })
 

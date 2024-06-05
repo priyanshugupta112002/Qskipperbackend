@@ -12,6 +12,19 @@ const userSchema = new mongoose.Schema({
     securityCode:{
         type:String,
         require:true
+    },
+    order:{
+        items:[{
+            type:mongoose.Schema.Types.ObjectId,
+            res:"product"
+        }],
+        totalPrice:{
+            type:Number 
+        }
+    },
+    orderId:{
+        type:Number,
+        default : 0
     }
 });
 

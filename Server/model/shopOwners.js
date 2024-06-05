@@ -25,8 +25,7 @@ const resturantSchema = new mongoose.Schema({
     rating:{
         type:Number,
         require:true
-    }
-    
+    } 
 });
 const ResturantSchema = mongoose.model('resturants', resturantSchema)
 module.exports = {ResturantSchema}

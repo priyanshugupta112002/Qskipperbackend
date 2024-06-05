@@ -1,5 +1,7 @@
+const { json } = require("express")
 const { ProductSchema } = require("../model/product")
 const { ResturantSchema } = require("../model/shopOwners")
+const UserSchema = require("../model/user")
 
 
 const createProductController = async(req,res)=>{
@@ -36,28 +38,6 @@ const createProductController = async(req,res)=>{
 
 
 }
-// const get_All_Product = async(req,res)=>{
-//    try {
-
-//     const {pid} = req.params;
-//     console.log(pid)
-
-//      const products = await ProductSchema.find({ restaurant_id: pid })
-//     .select("-product_photo64Image -extraTime")
-//     .populate({
-//         path: 'restaurants',
-//         select: '-bannerPhoto64Image',
-//         options: { strictPopulate: false }
-//     });
-
-//     console.log(products)
-
-    
-//    } catch (error) {
-//         res.status(404)
-//    }
-// }
-
 
 
 const get_All_Product = async(req, res) => {
@@ -116,14 +96,37 @@ const get_Product_Photo = async(req,res)=>{
 
 }
 
-
-
 const OrderPlaced = async(req,res)=>{
-    const Products = req.body
-    console.log(Products)
+   try {
+    
+    const {items , price  } = req.body
+    const item = items[0]
+    const resturant = await ResturantSchema.findById({_id:item._id}).populate("user")
+    const user  =  resturant.user
+    user.order. append([items , price])
+    user.orderId += 1
+    console.log(user.order)
+
+    res.status(202).json(user.orderId)
+    
+
+
+   } catch (error) {
+    res.status(404)
+    
+   }
+
+
+    // const productNotAvailabele
+
+    // items.forEach((item) => {
+    //    const checkAvailability = await ProductSchema.findById({_id:item._id}).select("availability")
+    //    if(!checkAvailability)
+    // });
+
+
 }
-
-
+ 
 
 
 
