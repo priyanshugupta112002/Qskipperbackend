@@ -1,46 +1,59 @@
 
 const {ResturantSchema} = require("../model/shopOwners")
 const fs = require("fs")
+const formidable = require('formidable');
 
 
 
 const registerResturantComtroller = async(req,res)=>{
 
     try {
+        const form = new formidable.IncomingForm();
+        form.parse(req, function(err, fields, files) {
+            if (err) {
+              console.error(err);
+              return res.end('Something went wrong');
+            }
+      
+            res.end('File uploaded successfully');
+          });
 
-        const { user , restaurant_Name , cuisine , estimatedTime } =req.fields
-        const { image} = req.fields
+        const { user , restaurant_Name , cuisine , estimatedTime } = req.fields
+        const { bannerPhoto64Image } = req.files
 
-
+        console.log(user, restaurant_Name ,cuisine)
 
       
         // const {user ,  restaurant_Name  , cuisine , estimatedTime , bannerPhoto64Image}  = req.body
     
         if(!user || ! restaurant_Name  || !cuisine || !estimatedTime ) {
             return res.status(400)
-        }else if (!image && image.size > 5000) {
+        }else if (!bannerPhoto64Image && bannerPhoto64Image.size > 5000) {
             return res.status(400)
 
         }
-        const userExist = await ResturantSchema.findOne({user})
-        if (userExist){
-            res.status(404)
-        }
-
+        // const userExist = await ResturantSchema.findOne({user})ß
+        // if (userExist){
+        //     res.status(404)
+        // }
+     
         const newRseturant = await ResturantSchema({
             user,
             restaurant_Name,
             cuisine,
             estimatedTime,
         })
-       
-        if (image) {
-            newRseturant.bannerPhoto64Image.data = fs.readFileSync(image.path);
-            newRseturant.bannerPhoto64Image.contentType = image.type;
+      
+        if (bannerPhoto64Image) {
+            newRseturant.bannerPhoto64Image.data = fs.readFileSync(bannerPhoto64Image.path);
+            newRseturant.bannerPhoto64Image.contentType = bannerPhoto64Image.type;
         }
-
         await newRseturant.save();
         
+        return res.status(202).json({
+            success:true
+    })
+        console.log("Ewe")
     } catch (error) {
         console.log(error)
         return res.status(404)
