@@ -104,7 +104,7 @@ const OrderPlaced = async(req,res)=>{
     console.log(items , price)
     console.log("cewcws")
     const item = items[0]
-    const resturant = await ResturantSchema.findById({_id:item._id}).populate("user")
+    const resturant = await ResturantSchema.findById({_id:item.restaurant_id}).populate("user")
     console.log(resturant)
     const user  =  resturant.user
     user.order. append([items , price])
