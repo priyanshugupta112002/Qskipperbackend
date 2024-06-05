@@ -7,28 +7,39 @@ const fs = require("fs")
 const registerResturantComtroller = async(req,res)=>{
 
     try {
+
+        const { user , restaurant_Name , cuisine , estimatedTime } =req.fields
+        const { image} = req.fields
+
+
+
       
-        const {user ,  restaurant_Name  , cuisine , estimatedTime , bannerPhoto64Image}  = req.body
+        // const {user ,  restaurant_Name  , cuisine , estimatedTime , bannerPhoto64Image}  = req.body
     
-        if(!user || ! restaurant_Name  || !cuisine || !estimatedTime || !bannerPhoto64Image) {
+        if(!user || ! restaurant_Name  || !cuisine || !estimatedTime ) {
             return res.status(400)
+        }else if (!image && image.size > 5000) {
+            return res.status(400)
+
         }
         const userExist = await ResturantSchema.findOne({user})
         if (userExist){
             res.status(404)
         }
+
         const newRseturant = await ResturantSchema({
             user,
             restaurant_Name,
             cuisine,
             estimatedTime,
-            bannerPhoto64Image
         })
-        await newRseturant.save()
+       
+        if (image) {
+            newRseturant.bannerPhoto64Image.data = fs.readFileSync(image.path);
+            newRseturant.bannerPhoto64Image.contentType = image.type;
+        }
 
-        res.status(202).json({
-
-        })
+        await newRseturant.save();
         
     } catch (error) {
         console.log(error)
