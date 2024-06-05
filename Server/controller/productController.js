@@ -98,21 +98,21 @@ const get_Product_Photo = async(req,res)=>{
 
 const OrderPlaced = async(req,res)=>{
    try {
-    console.log("order")
+  
 
-    const {items , price  } = req.body
-    console.log(items , price)
-    console.log("cewcws")
-    const item = items[0]
-    const resturant = await ResturantSchema.findById({_id:item.restaurant_id}).populate("user")
-    console.log(resturant)
-    const user  =  resturant.user
-    user.order. append([items , price])
-    user.orderId += 1
-    console.log(user.order)
+        const {items , price  } = req.body
+      
+        const item = items[0]
+        const resturant = await ResturantSchema.findById({_id:item.restaurant_id}).populate("user")
+        console.log(resturant)
+        const user  =  resturant.user
+        user.order.append([items , totalPrice = price])
+       
+        user.orderId += 1
+        console.log(user.order)
 
-    res.status(202).json(user.orderId)
-    
+        res.status(202).json(user.orderId)
+        
 
 
    } catch (error) {

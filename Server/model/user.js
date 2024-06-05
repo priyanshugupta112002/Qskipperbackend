@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         type:String,
         require:true
     },
-    order:{
+    order:[{
         items:[{
             type:mongoose.Schema.Types.ObjectId,
             res:"product"
@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         totalPrice:{
             type:Number 
         }
-    },
+    }],
     orderId:{
         type:Number,
         default : 0
