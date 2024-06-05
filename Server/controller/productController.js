@@ -104,7 +104,7 @@ const OrderPlaced = async(req,res)=>{
       
         const item = items[0]
         const resturant = await ResturantSchema.findById({_id:item.restaurant_id}).populate("user")
-        console.log(user)
+        console.log(resturant.user)
         const user  =  resturant.user
         user.order.push({items , totalPrice:price})
     
