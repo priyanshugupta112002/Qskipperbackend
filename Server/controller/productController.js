@@ -98,10 +98,12 @@ const get_Product_Photo = async(req,res)=>{
 
 const OrderPlaced = async(req,res)=>{
    try {
-    
+    console.log("order")
+    console.log(req.body)
     const {items , price  } = req.body
     const item = items[0]
     const resturant = await ResturantSchema.findById({_id:item._id}).populate("user")
+    console.log(resturant)
     const user  =  resturant.user
     user.order. append([items , price])
     user.orderId += 1
