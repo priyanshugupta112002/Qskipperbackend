@@ -4,6 +4,7 @@ const fs = require("fs")
 const formidable = require('formidable');
 
 const registerResturantComtroller = async(req, res) => {
+    console.log(req.body)
     try {
         const form = new formidable.IncomingForm();
 
@@ -31,8 +32,8 @@ const registerResturantComtroller = async(req, res) => {
                 estimatedTime,
             });
 
-            newRestaurant.bannerPhoto64Image.data = fs.readFileSync(bannerPhoto64Image.path);
-            newRestaurant.bannerPhoto64Image.contentType = bannerPhoto64Image.type;
+            // newRestaurant.bannerPhoto64Image.data = fs.readFileSync(bannerPhoto64Image.path);
+            // newRestaurant.bannerPhoto64Image.contentType = bannerPhoto64Image.type;
 
             await newRestaurant.save();
 

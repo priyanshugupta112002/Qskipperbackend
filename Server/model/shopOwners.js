@@ -17,7 +17,7 @@ const resturantSchema = new mongoose.Schema({
     bannerPhoto64Image:{
         data: Buffer,
         contentType: String,
-   
+        
     },
     cuisine:{
         type:String,
