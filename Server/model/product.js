@@ -21,8 +21,9 @@ const productSchema = new mongoose.Schema({
         type:Number,
         require:true
     },
-    featured_Item:{
-
+    top_picks:{
+        type:Boolean,
+        default:false
     },
     availability:{
         type:Boolean,

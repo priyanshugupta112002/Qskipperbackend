@@ -114,17 +114,18 @@ const OrderPlaced = async(req,res)=>{
         const {items , price  } = req.body
       
         const item = items[0]
-        const resturant = await ResturantSchema.findById({_id:item.restaurant_id}).populate("user")
+        const resturant = await ResturantSchema.findById(item.restaurant_id).populate("user")
         console.log(items )
         
         console.log("user")
         
         console.log(resturant.user)
-        const user = await UserSchema.findById({_id:resturant.user._id}) 
+        const user = await UserSchema.findById(resturant.user._id) 
         // const user  =  resturant.user
         user.order.push({items , totalPrice:price})
     
         user.orderId += 1
+        await user.save();
         console.log("ujxwekxm")
         console.log(user)
 
