@@ -148,6 +148,50 @@ const OrderPlaced = async(req,res)=>{
  
 
 
+const updatePhotoController = async(req,res)=>{
+
+    try {
+        console.log(req.fields)
+        console.log(req.files)
+        console.log(req.params)
+        const { product_name , product_price , food_category , restaurant_id , description , extraTime} =  req.fields
+        const {product_photo64Image:product_photo64Image} = req.files
+        if (!product_name  || !product_price || !food_category || !restaurant_id || !description ){
+                res.status(400).send({
+                success:false,
+                message:"incomplete Credentials"
+            })
+        }
+
+        const product = await ProductSchema.findByIdAndUpdate(
+            req.params.pid,
+            {product_name,
+            product_price,
+            food_category,
+            restaurant_id,
+            description,
+            extraTime},
+            { new: true }
+          );
+        
+
+        if (product_photo64Image) {
+            product.product_photo64Image.data = fs.readFileSync(product_photo64Image.path);
+            product.product_photo64Image.contentType = product_photo64Image.type;
+        }
+        await product.save();
+        console.log(product)
+        return res.status(202)
+    
+   } catch (error) {
+    console.log(error)
+   }
 
 
-module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced}
+}
+
+
+
+
+
+module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController}

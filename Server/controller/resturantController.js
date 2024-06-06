@@ -70,9 +70,9 @@ const registerResturantComtroller = async(req,res)=>{
         // console.log(req.fields)
         // console.log(req.files)
         // console.log("ewwq")
-        const user = "66602e9d8e3836eb7093eeda"
+      
         console.log(req.files)
-        const {   restaurant_Name:restaurant_Name , cuisines:cuisine ,estimatedTime:estimatedTime } = req.fields
+        const { restaurantId:user,  restaurant_Name:restaurant_Name , cuisines:cuisine ,estimatedTime:estimatedTime } = req.fields
         const {bannerPhoto64Image:bannerPhoto64Image} = req.files
 
         console.log(user, restaurant_Name ,cuisine , estimatedTime )

@@ -1,5 +1,8 @@
 const mongoose = require("mongoose")
 
+const getRandomRating = () => {
+    return Math.random() * 5;
+};
 
 const productSchema = new mongoose.Schema({
     product_name:{
@@ -12,7 +15,7 @@ const productSchema = new mongoose.Schema({
     },
     ratinge:{
         type:Number,
-        default:0.0
+        default:getRandomRating
     },
     product_price:{
         type:Number,
@@ -44,6 +47,7 @@ const productSchema = new mongoose.Schema({
         default:1
     }
 })
+
 
 const ProductSchema = mongoose.model('product',productSchema)
 module.exports = {ProductSchema}
