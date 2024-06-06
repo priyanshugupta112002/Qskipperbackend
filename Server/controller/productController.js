@@ -2,15 +2,18 @@ const { json } = require("express")
 const { ProductSchema } = require("../model/product")
 const { ResturantSchema } = require("../model/shopOwners")
 const UserSchema = require("../model/user")
+const fs = require("fs")
 
 
 const createProductController = async(req,res)=>{
 
    try {
         
-        // console.log(req.body)
-        const { product_name ,product_photo64Image, product_price , food_category , restaurant_id , description , extraTime} =  req.body
-        console.log(product_name ,product_photo64Image, product_price , food_category , restaurant_id , description , extraTime)
+        // console.log(req.files)
+        // console.log(req.fields)
+        const { product_name , product_price , food_category , restaurant_id , description , extraTime} =  req.fields
+        const { product_photo64Image} = req.files
+        console.log(product_name , product_price , food_category , restaurant_id , description , extraTime)
 
         if (!product_name || !product_photo64Image || !product_price || !food_category || !restaurant_id || !description ){
                 res.status(400).send({
@@ -18,16 +21,20 @@ const createProductController = async(req,res)=>{
                 message:"incomplete Credentials"
             })
         }
+        
        
         const newProduct = await ProductSchema({
             product_name,
-            product_photo64Image,
             product_price,
             food_category,
             restaurant_id,
             description,
             extraTime
         })
+        if (product_photo64Image) {
+            newProduct.product_photo64Image.data = fs.readFileSync(product_photo64Image.path);
+            newProduct.product_photo64Image.contentType = product_photo64Image.type;
+        }
         await newProduct.save();
         console.log(newProduct)
         return res.status(202)
@@ -70,15 +77,20 @@ const get_All_Product = async(req, res) => {
 
 
 const get_Product_Photo = async(req,res)=>{
+    console.log("cwe")
     try {
         const {pid} =req.params
-
-        const product_photo = await ProductSchema.findById({_id:pid}).select("product_photo64Image ")
-        console.log(product_photo);
-        if (product_photo) {
+        console.log(pid)
+        const product= await ProductSchema.findById({_id:pid}).select("product_photo64Image ")
+      
+        if (product.product_photo64Image.data) {
+            res.set("Content-type", product.product_photo64Image.contentType);
+            return res.status(200).send(product.product_photo64Image.data);
+          }
+        if (product.product_photo64Image) {
             res.status(200).json({
                 product_photo:{
-                    banner_photo64 : product_photo.product_photo64Image
+                    banner_photo64 : product.product_photo64Image
                 }
             }
             ); // Send the product object, not All_Product

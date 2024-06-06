@@ -4,10 +4,7 @@ const Router = express.Router()
 const formidableMiddleware = require("express-formidable");
 
 
-Router.post("/register-restaurant" , async (req, res, next) => {
-console.log(req)
-next()
-}, formidableMiddleware(), registerResturantComtroller)
+Router.post("/register-restaurant" , formidableMiddleware(), registerResturantComtroller)
 
 
 Router.get("/get_All_Restaurant" , get_All_resturant)

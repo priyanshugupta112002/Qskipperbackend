@@ -7,8 +7,8 @@ const productSchema = new mongoose.Schema({
         require:true
     },
     product_photo64Image:{
-        type:String,
-        require:true
+        data: Buffer,
+        contentType: String,
     },
     ratinge:{
         type:Number,

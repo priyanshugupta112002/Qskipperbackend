@@ -64,17 +64,18 @@ const registerResturantComtroller = async(req,res)=>{
         //       return res.end('Something went wrong');
         //     }
        
-        //     res.end('File uploaded successfully');
+        //     res.end('File uploaded successfully');``
         //   });
         // const {req.fields}
         // console.log(req.fields)
         // console.log(req.files)
         // console.log("ewwq")
         const user = "66602e9d8e3836eb7093eeda"
-        const {   restaurantName:restaurant_Name , cuisines:cuisine , estimatedTime } = req.fields
-        const {restaurantImage:bannerPhoto64Image} = req.files
+        console.log(req.files)
+        const {   restaurant_Name:restaurant_Name , cuisines:cuisine ,estimatedTime:estimatedTime } = req.fields
+        const {bannerPhoto64Image:bannerPhoto64Image} = req.files
 
-        console.log(user, restaurant_Name ,cuisine  ,bannerPhoto64Image)
+        console.log(user, restaurant_Name ,cuisine , estimatedTime )
 
       
         // const {user ,  restaurant_Name  , cuisine , estimatedTime , bannerPhoto64Image}  = req.body
@@ -87,11 +88,11 @@ const registerResturantComtroller = async(req,res)=>{
         }
 
         // console.log("ewwqqasdasd")
-        // const userExist = await ResturantSchema.findOne({user})ß
-        // if (userExist){
-        //     res.status(404)
-        // }
-     console.log(bannerPhoto64Image)
+        const userExist = await ResturantSchema.findOne({user})
+        if (userExist){
+            res.status(404)
+        }
+    //  console.log(bannerPhoto64Image)
 
         const newRseturant = await ResturantSchema({
             user,
@@ -105,7 +106,7 @@ const registerResturantComtroller = async(req,res)=>{
             newRseturant.bannerPhoto64Image.contentType = bannerPhoto64Image.type;
         }
         await newRseturant.save();
-        
+        console.log("ecwe")
         return res.status(202).json({
             success:true
     })
@@ -138,11 +139,15 @@ const get_Retrurant_Photo = async(req,res)=>{
         console.log("gvhn")
         const {pid} =req.params
         console.log(pid)
-        const restaurant_photo = await ResturantSchema.findById({_id:pid}).select("bannerPhoto64Image")
+        const restaurant= await ResturantSchema.findById({_id:pid}).select("bannerPhoto64Image")
+        if (restaurant.bannerPhoto64Image.data) {
+            res.set("Content-type", restaurant.bannerPhoto64Image.contentType);
+            return res.status(200).send(restaurant.bannerPhoto64Image.data);
+          }
         
         res.status(202).json({
             restaurant:{
-                banner_photo64 :restaurant_photo.bannerPhoto64Image
+                banner_photo64 :restaurant.bannerPhoto64Image
             }
         })
 
