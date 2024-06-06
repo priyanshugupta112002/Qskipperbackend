@@ -3,52 +3,6 @@ const {ResturantSchema} = require("../model/shopOwners")
 const fs = require("fs")
 const formidable = require('formidable');
 
-// const registerResturantComtroller = async(req, res) => {
-//     console.log(req.body)
-//     try {
-//         const form = new formidable.IncomingForm();
-
-//         form.parse(req, async (err, fields, files) => {
-//             if (err) {
-//                 console.error(err);
-//                 return res.status(500).json({ error: 'Something went wrong' });
-//             }
-
-//             const { user, restaurant_Name, cuisine, estimatedTime } = fields;
-//             const { bannerPhoto64Image } = files;
-
-//             if (!user || !restaurant_Name || !cuisine || !estimatedTime) {
-//                 return res.status(400).json({ error: 'Missing required fields' });
-//             }
-
-//             if (!bannerPhoto64Image || bannerPhoto64Image.size > 5000) {
-//                 return res.status(400).json({ error: 'Invalid banner photo' });
-//             }
-
-//             const newRestaurant = new ResturantSchema({
-//                 user,
-//                 restaurant_Name,
-//                 cuisine,
-//                 estimatedTime,
-//             });
-
-//             // newRestaurant.bannerPhoto64Image.data = fs.readFileSync(bannerPhoto64Image.path);
-//             // newRestaurant.bannerPhoto64Image.contentType = bannerPhoto64Image.type;
-
-//             await newRestaurant.save();
-
-//             return res.status(202).json({ success: true });
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).json({ error: 'Internal server error' });
-//     }
-// };
-
-
-
-
-
 
 
 
