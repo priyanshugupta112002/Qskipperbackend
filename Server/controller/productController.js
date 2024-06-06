@@ -8,9 +8,8 @@ const fs = require("fs")
 const createProductController = async(req,res)=>{
 
    try {
-        
-        // console.log(req.files)
-        // console.log(req.fields)
+
+        console.log(req.fields)
         const { product_name , product_price , food_category , restaurant_id , description , extraTime} =  req.fields
         const { product_photo64Image} = req.files
         console.log(product_name , product_price , food_category , restaurant_id , description , extraTime)
@@ -154,7 +153,7 @@ const updatePhotoController = async(req,res)=>{
         console.log(req.fields)
         console.log(req.files)
         console.log(req.params)
-        const { product_name , product_price , food_category , restaurant_id , description , extraTime} =  req.fields
+        const { product_name , product_price , food_category , restaurant_id , description , extraTime ,featured_Item } =  req.fields
         const {product_photo64Image:product_photo64Image} = req.files
         if (!product_name  || !product_price || !food_category || !restaurant_id || !description ){
                 res.status(400).send({

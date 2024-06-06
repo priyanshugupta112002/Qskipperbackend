@@ -57,22 +57,9 @@ const registerResturantComtroller = async(req,res)=>{
 
     try {
         
-        // const form = new formidable.IncomingForm();
-        // form.parse(req, function(err, fields, files) {
-        //     if (err) {
-        //       console.error(err);
-        //       return res.end('Something went wrong');
-        //     }
-       
-        //     res.end('File uploaded successfully');``
-        //   });
-        // const {req.fields}
-        // console.log(req.fields)
-        // console.log(req.files)
-        // console.log("ewwq")
-      
+
         console.log(req.files)
-        const { restaurantId:user,  restaurant_Name:restaurant_Name , cuisines:cuisine ,estimatedTime:estimatedTime } = req.fields
+        const { userId:user,  restaurant_Name:restaurant_Name , cuisines:cuisine ,estimatedTime:estimatedTime } = req.fields
         const {bannerPhoto64Image:bannerPhoto64Image} = req.files
 
         console.log(user, restaurant_Name ,cuisine , estimatedTime )
@@ -88,10 +75,10 @@ const registerResturantComtroller = async(req,res)=>{
         }
 
         // console.log("ewwqqasdasd")
-        const userExist = await ResturantSchema.findOne({user})
-        if (userExist){
-            res.status(404)
-        }
+        // const userExist = await ResturantSchema.findOne({user})
+        // if (userExist){
+        //     res.status(404)
+        // }
     //  console.log(bannerPhoto64Image)
 
         const newRseturant = await ResturantSchema({
@@ -107,9 +94,9 @@ const registerResturantComtroller = async(req,res)=>{
         }
         await newRseturant.save();
         console.log("ecwe")
-        return res.status(202).json({
-            success:true
-    })
+        return res.status(202).end(
+            newRseturant._id.toString()
+        )
         
     } catch (error) {
         console.log(error)
