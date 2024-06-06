@@ -12,7 +12,7 @@ dotenv.config()
 connectDB()
 
 
-// app.use(express.json())
+app.use(express.json())
 app.use(morgan("dev"))
 app.use(express.static("public"))
 
