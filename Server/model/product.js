@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const getRandomRating = () => {
-    return Math.random() * 5;
+    return (Math.random() * 2) + 3;
 };
 
 const productSchema = new mongoose.Schema({
