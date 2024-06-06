@@ -75,10 +75,10 @@ const registerResturantComtroller = async(req,res)=>{
         }
 
         // console.log("ewwqqasdasd")
-        // const userExist = await ResturantSchema.findOne({user})
-        // if (userExist){
-        //     res.status(404)
-        // }
+        const userExist = await ResturantSchema.findOne({user})
+        if (userExist){
+            res.status(404)
+        }
     //  console.log(bannerPhoto64Image)
 
         const newRseturant = await ResturantSchema({
