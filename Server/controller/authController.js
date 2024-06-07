@@ -77,7 +77,12 @@ const loginController = async(req,res)=>{
                     })
                 }else{
                     res.status(202).json({
-                        id:userExist._id
+                        id:userExist._id,
+                        restaurantid:"",
+                        restaurantName:"",
+                        resturantEstimateTime:0,
+                        // resturantphoto:resturantExist.bannerPhoto64Image,
+                        resturantCusine:""
                     
                 })
                 }
