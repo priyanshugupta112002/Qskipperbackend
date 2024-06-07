@@ -56,6 +56,8 @@ const registerResturantComtroller = async(req,res)=>{
         console.log(error)
         return res.status(404)
     }
+
+    
 }
 const get_All_resturant = async(req,res)=>{
 

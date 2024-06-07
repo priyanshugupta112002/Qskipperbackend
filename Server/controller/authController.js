@@ -1,6 +1,7 @@
 const  UserSchema  = require("../model/user")
 const jwt = require("jsonwebtoken")
 const {hashedPassword , comparePassword} = require("../passwordEncryption/passwordEncryption")
+const { ResturantSchema } = require("../model/shopOwners")
 
 
 
@@ -63,10 +64,20 @@ const loginController = async(req,res)=>{
             const samePassword = await comparePassword(password ,userExist.password)
          
             if (samePassword){
-                res.status(202).json({
+
+                const resturantExist = await ResturantSchema.find({user:userExist._id})
+                if(resturantExist){
+                    res.status(202).json({
+                        id:userExist._id,
+                        returantid:resturantExist._id
+                    })
+                }else{
+                    res.status(202).json({
                         id:userExist._id
                     
                 })
+                }
+                
             }else{
                 res.status(400).send({
                     success:false,

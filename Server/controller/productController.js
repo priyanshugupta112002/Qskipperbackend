@@ -194,8 +194,22 @@ const updatePhotoController = async(req,res)=>{
 
 }
 
+const topPicks = async(req,res)=>{
+
+    try {
+        const allTopPicks = await ProductSchema.find({top_picks:true}).select("-product_photo64Image")
+        console.log(allTopPicks)
+        res.status(200).json({
+            allTopPicks
+        })
+    } catch (error) {
+        
+    }
+
+}
 
 
 
 
-module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController}
+
+module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks}
