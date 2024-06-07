@@ -65,11 +65,15 @@ const loginController = async(req,res)=>{
          
             if (samePassword){
 
-                const resturantExist = await ResturantSchema.find({user:userExist._id})
+                const resturantExist = await ResturantSchema.findOne({user:userExist._id})
                 if(resturantExist){
                     res.status(202).json({
                         id:userExist._id,
-                        returantid:resturantExist._id
+                        restaurantid:resturantExist._id,
+                        restaurantName:resturantExist.restaurant_Name,
+                        resturantEstimateTime:resturantExist.estimatedTime,
+                        resturantphoto:resturantExist.bannerPhoto64Image,
+                        resturantCusine:resturantExist.cuisine
                     })
                 }else{
                     res.status(202).json({
