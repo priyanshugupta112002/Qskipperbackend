@@ -72,7 +72,7 @@ const loginController = async(req,res)=>{
                         restaurantid:resturantExist._id,
                         restaurantName:resturantExist.restaurant_Name,
                         resturantEstimateTime:resturantExist.estimatedTime,
-                        resturantphoto:resturantExist.bannerPhoto64Image,
+                        // resturantphoto:resturantExist.bannerPhoto64Image,
                         resturantCusine:resturantExist.cuisine
                     })
                 }else{

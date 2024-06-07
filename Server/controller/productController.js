@@ -203,7 +203,7 @@ const topPicks = async(req,res)=>{
             allTopPicks
         })
     } catch (error) {
-        
+        res.status(400)
     }
 
 }
