@@ -111,7 +111,7 @@ const OrderPlaced = async(req,res)=>{
    try {
   
 
-        const {items , price  } = req.body
+        const {items , price } = req.body
       
         const item = items[0]
         const resturant = await ResturantSchema.findById(item.restaurant_id).populate("user")

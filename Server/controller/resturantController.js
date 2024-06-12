@@ -114,7 +114,7 @@ const resturantOrders = async (req,res)=>{
         
         const all_orders = await UserSchema.findById(req.params.pid).select("order").sort("-1").populate({
             path: 'order.items',
-            select : '-product_photo64Image',
+            select : 'product_name , quantity , product_price',
             model: 'product' 
         })
         res.status(202).send(all_orders)
