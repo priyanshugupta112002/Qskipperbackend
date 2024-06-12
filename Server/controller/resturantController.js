@@ -2,6 +2,8 @@
 const {ResturantSchema} = require("../model/shopOwners")
 const fs = require("fs")
 const formidable = require('formidable');
+const UserSchema = require("../model/user");
+const ProductSchema = require("../model/product")
 
 
 
@@ -106,4 +108,28 @@ const get_Retrurant_Photo = async(req,res)=>{
 
 
 
-module.exports = {registerResturantComtroller , get_All_resturant , get_Retrurant_Photo}
+const resturantOrders = async (req,res)=>{
+        
+    try {
+        
+        const all_orders = await UserSchema.findById(req.params.pid).select("order").sort("-1").populate({
+            path: 'order.items',
+            select : '-product_photo64Image',
+            model: 'product' 
+        })
+        res.status(202).send(all_orders)
+
+
+    } catch (error) {
+        console.log(error)
+        res.status(400)
+    }
+
+
+
+
+} 
+
+
+
+module.exports = {registerResturantComtroller , get_All_resturant , get_Retrurant_Photo , resturantOrders}

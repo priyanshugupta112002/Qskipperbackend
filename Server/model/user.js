@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
         }],
         totalPrice:{
             type:Number 
+        },
+        status:{
+            type:String,
+            default:"Placed"
         }
     }],
     orderId:{
