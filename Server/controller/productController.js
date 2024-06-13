@@ -209,7 +209,20 @@ const topPicks = async(req,res)=>{
 }
 
 
+const orderCompleted = async(req,res)=>{
+
+    try {
+        console.log(req.pid)
+        res.status(202).end()
+    } catch (error) {
+        console.log(error)
+        res.status(404).end()
+    }
+
+
+}
 
 
 
-module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks}
+
+module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks , orderCompleted}

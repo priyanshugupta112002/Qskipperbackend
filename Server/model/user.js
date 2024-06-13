@@ -24,6 +24,14 @@ const userSchema = new mongoose.Schema({
         status:{
             type:String,
             default:"Placed"
+        },
+        packed:{
+            type:String,
+            default:"Take Away"
+        },
+        orderId:{
+            typeo:String,
+            
         }
     },
     orderId:{
