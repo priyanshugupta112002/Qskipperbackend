@@ -20,7 +20,7 @@ Router.get("/top-picks" , topPicks)
 Router.get("/get-order/:pid" , resturantOrders)
 
 // Router.delete("/delete-photo")
-Router.get("/get-order/pid" , orderCompleted)
+Router.get("/order-complete/:pid/:cid" , orderCompleted)
 
 
 Router.post("/order-placed", OrderPlaced)

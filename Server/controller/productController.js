@@ -212,7 +212,22 @@ const topPicks = async(req,res)=>{
 const orderCompleted = async(req,res)=>{
 
     try {
-        console.log(req.pid)
+        
+        const all_orders = await UserSchema.findById(req.params.pid).select("order").populate({
+            path: 'order.items',
+            select : 'product_name , quantity , product_price',
+            model: 'product' 
+        }).findById(req.params.cid)
+
+        console.log(all_orders)
+
+        // const hello = all_orders.
+        // console.log(hello)
+
+
+
+
+
         res.status(202).end()
     } catch (error) {
         console.log(error)
