@@ -3,6 +3,7 @@ const { ProductSchema } = require("../model/product")
 const { ResturantSchema } = require("../model/shopOwners")
 const UserSchema = require("../model/user")
 const fs = require("fs")
+const { OrderSchema } = require("../model/order")
 
 
 const createProductController = async(req,res)=>{
@@ -22,7 +23,7 @@ const createProductController = async(req,res)=>{
         }
         
        
-        const newProduct = await ProductSchema({
+        const newProduct = new ProductSchema({
             product_name,
             product_price,
             food_category,
@@ -110,46 +111,44 @@ const get_Product_Photo = async(req,res)=>{
 const OrderPlaced = async(req,res)=>{
    try {
   
+        const {items , price , resturantId } = req.body
 
-        const {items , price } = req.body
-      
-        const item = items[0]
-        const resturant = await ResturantSchema.findById(item.restaurant_id).populate("user")
-        console.log(items )
-        
-        console.log("user")
-        
-        console.log(resturant.user)
-        const user = await UserSchema.findById(resturant.user._id) 
-        // const user  =  resturant.user
-        user.order.push({items , totalPrice:price})
+        const newOrder = new OrderSchema({
+            items,
+            totalAmount:price,
+            resturant:resturantId
+
+        })
+        console.log(newOrder);
+        await newOrder.save();
+
+        res.status(200).json(newOrder._id);
     
-        user.orderId += 1
-        await user.save();
-        console.log("ujxwekxm")
-        console.log(user)
-
-        res.status(202).json(user.orderId)
-        
-
-
    } catch (error) {
         res.status(404)
         console.log("order status error")
     
    }
-
-
-    // const productNotAvailabele
-
-    // items.forEach((item) => {
-    //    const checkAvailability = await ProductSchema.findById({_id:item._id}).select("availability")
-    //    if(!checkAvailability)
-    // });
-
-
 }
- 
+
+const updateOnOrder = async (req, res) => {
+    try {
+        
+        const { orderId } = req.params;
+        const order = await OrderSchema.findById(orderId);
+
+       
+        if (!order) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        res.status(200).json({ status: order.status });
+    } catch (error) {
+        console.error("Error fetching order status:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 
 
 const updatePhotoController = async(req,res)=>{
@@ -209,35 +208,8 @@ const topPicks = async(req,res)=>{
 }
 
 
-const orderCompleted = async(req,res)=>{
-
-    try {
-        
-        const all_orders = await UserSchema.findById(req.params.pid).select("order").populate({
-            path: 'order.items',
-            select : 'product_name , quantity , product_price',
-            model: 'product' 
-        }).findById(req.params.cid)
-
-        console.log(all_orders)
-
-        // const hello = all_orders.
-        // console.log(hello)
 
 
 
 
-
-        res.status(202).end()
-    } catch (error) {
-        console.log(error)
-        res.status(404).end()
-    }
-
-
-}
-
-
-
-
-module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks , orderCompleted}
+module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks , updateOnOrder }

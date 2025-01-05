@@ -3,7 +3,8 @@ const {ResturantSchema} = require("../model/shopOwners")
 const fs = require("fs")
 const formidable = require('formidable');
 const UserSchema = require("../model/user");
-const ProductSchema = require("../model/product")
+const ProductSchema = require("../model/product");
+const { OrderSchema } = require("../model/order");
 
 
 
@@ -108,28 +109,51 @@ const get_Retrurant_Photo = async(req,res)=>{
 
 
 
-const resturantOrders = async (req,res)=>{
-        
+const resturantOrders = async (req, res) => {
     try {
+        const { pid } = req.params;
         
-        const all_orders = await UserSchema.findById(req.params.pid).select("order").sort("-1").populate({
-            path: 'order.items',
-            select : 'product_name , quantity , product_price',
-            model: 'product' 
-        })
-        res.status(202).send(all_orders)
+        if (!pid) {
+            return res.status(400).json({ error: "Restaurant ID is required" });
+        }
+        console.log(pid)
+        const all_orders = await OrderSchema.find({ resturant: pid });
 
+        if (all_orders.length === 0) {
+            return res.status(404).json({ message: "No orders found for this restaurant" });
+        }
 
+        res.status(200).json({length:all_orders.length , all_orders});
     } catch (error) {
-        console.log(error)
-        res.status(400)
+        console.error("Error fetching orders:", error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
+};
+
+const orderCompleted = async (req, res) => {
+    try {
+        const { oid: orderId } = req.params;
+        const { status } = req.body; 
+
+        
+        const order = await OrderSchema.findById(orderId);
+
+        if (!order) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        // Update status
+        order.status = status;
+        await order.save();
+
+        res.status(200).json({ message: "Order status updated successfully", order });
+    } catch (error) {
+        console.error("Error updating order:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
 
 
 
 
-} 
-
-
-
-module.exports = {registerResturantComtroller , get_All_resturant , get_Retrurant_Photo , resturantOrders}
+module.exports = {registerResturantComtroller , get_All_resturant , get_Retrurant_Photo , resturantOrders , orderCompleted}

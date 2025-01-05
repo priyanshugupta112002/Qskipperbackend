@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"resturant"
     },
-    product:[
+    items:[
         {
             productId:{
                 type:String,
@@ -30,19 +30,16 @@ const orderSchema = new mongoose.Schema({
         type:String,
         require:true
     },
-    packed:{
-        type:Boolean,
-        default:false,
-    },
     status:{
         type:String,
         require:true,
-        emun :["Placed" , "Preparing" , "Prepared" , "Picked Up"]
+        default:"Placed",
+        emun :["Placed" , "Prepared" , "Picked Up"]
     },
-    scheduledAt:{
+    Time:{
         type:Date,   
         default:Date.now(),
-        require:true
+        
     }
 })
 

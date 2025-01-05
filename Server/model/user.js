@@ -13,28 +13,28 @@ const userSchema = new mongoose.Schema({
         type:String,
         require:true
     },
-    order:{
-        items:[{
-            type:mongoose.Schema.Types.ObjectId,
-            res:"product"
-        }],
-        totalPrice:{
-            type:Number 
-        },
-        status:{
-            type:String,
-            default:"Placed"
-        },
-        packed:{
-            type:String,
-            default:"Take Away"
-        },
-        orderId:{
-            typeo:String,
+    // order:{
+    //     items:[{
+    //         type:mongoose.Schema.Types.ObjectId,
+    //         res:"product"
+    //     }],
+    //     totalPrice:{
+    //         type:Number 
+    //     },
+    //     status:{
+    //         type:String,
+    //         default:"Placed"
+    //     },
+    //     packed:{
+    //         type:String,
+    //         default:"Take Away"
+    //     },
+    //     orderId:{
+    //         typeo:String,
             
-        }
-    },
-    orderId:{
+    //     }
+    // },
+    TotalOrder:{
         type:Number,
         default : 0
     }
