@@ -9,10 +9,11 @@ const userSchema = new mongoose.Schema({
         type:String,
         require:true
     },
-    securityCode:{
-        type:String,
-        require:true
-    },
+    // securityCode:{
+    //     type:String,
+    //     require:true,
+    //     default:0,
+    // },
     // order:{
     //     items:[{
     //         type:mongoose.Schema.Types.ObjectId,
@@ -34,10 +35,10 @@ const userSchema = new mongoose.Schema({
             
     //     }
     // },
-    TotalOrder:{
-        type:Number,
-        default : 0
-    }
+    // TotalOrder:{
+    //     type:Number,
+    //     default : 0
+    // }
 });
 
 const UserSchema =  mongoose.model('users' , userSchema)

@@ -2,54 +2,147 @@ const  UserSchema  = require("../model/user")
 const jwt = require("jsonwebtoken")
 const {hashedPassword , comparePassword} = require("../passwordEncryption/passwordEncryption")
 const { ResturantSchema } = require("../model/shopOwners")
+const {  sendOTPEmail} = require("./emailService")
+const verifyUsersSchema = require("../model/verifyUser")
 
-
-
-const userRegisterController =async(req,res)=>{
-
-   try {
-        const { password ,email , securityCode} = req.body
-        console.log(securityCode, email , password)
-        if (  !email || !password || !securityCode){
-             return res.status(400).json({
-                success:false,
-                message:"incomplete Credentials",
-                 email,password,securityCode
-
-            })
-        }
-        const emailExist = await UserSchema.findOne({email})
-       
-        if (emailExist){
-                 return res.status(400).json({
-                    success:false,
-                    message:"Email Already Exist"
-                })
-        }
-        const hashed = await hashedPassword(password)
-
-        const user = new UserSchema({
-            
-                email,
-                password:hashed,
-                securityCode
-        })
-        await user.save()
-        console.log(user)
-        res.status(202).json({
-                id:user._id
-        })
-        
+function generateOTP(){
+    return  Math.floor(100000 + Math.random() * 900000).toString();
     
-   } catch (error) {
-    console.log(error)
-    res.status(400)
+} 
+exports.userRegisterController = async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      console.log(email, password);
+  
+      // Validate input
+      if (!email || !password) {
+        return res.status(400).json({
+          success: false,
+          message: "Incomplete credentials",
+          email,
+          password,
+        });
+      }
+  
+      // Check if email already exists
+      const emailExist = await UserSchema.findOne({ email });
+      if (emailExist) {
+        return res.status(400).json({
+          success: false,
+          message: "Email already exists",
+        });
+      }
+  
+      // Hash password
+      const hashed = await hashedPassword(password);
+  
+      // Generate OTP
+      
+      const otp = generateOTP();
+      console.log(otp);
+  
+      // Send OTP email (ensure sendOTPEmail returns a promise)
+      try {
+        const result = await sendOTPEmail(email, otp);
+        console.log(result);
+      } catch (err) {
+        console.error("Error sending OTP email:", err);
+        return res.status(500).json({
+          success: false,
+          message: "Failed to send OTP email. Please try again.",
+        });
+      }
+      const userExist = await verifyUsersSchema.findOne({email});
+      if(userExist){
+            userExist.otp = otp
+            await userExist.save()
 
-   }
+            return res.status(202).json({
+                success: true,
+                message: "new otp is been send to the email.",
+            });
 
-}
+      }
+      // Save user details in the verification schema
+      const user = new verifyUsersSchema({
+        email,
+        password: hashed,
+        otp,
+      });
+  
+      await user.save();
+      console.log("User created for verification:", user);
+  
+      return res.status(202).json({
+        success: true,
+        message: "User registered successfully. OTP sent to email.",
+      });
+  
+    } catch (error) {
+      console.error("Error in user registration:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal server error.",
+      });
+    }
+  };
 
-const loginController = async(req,res)=>{
+  
+
+exports.verifyUserController = async (req, res) => {
+    try {
+      const { email, otp } = req.body;
+  
+
+      if (!email || !otp) {
+        return res.status(400).json({
+          success: false,
+          message: "Email and OTP are required.",
+        });
+      }
+  
+      // Check if user exists
+      const userExist = await verifyUsersSchema.findOne({ email });
+      if (!userExist) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found.",
+        });
+      }
+  
+      // Verify OTP
+      const storedOtp = userExist.otp;
+      if (storedOtp !== otp) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid OTP.",
+        });
+      }
+  
+      // Save user to UserSchema and delete from verifyUsersSchema
+      const user = new UserSchema({
+        email: userExist.email,
+        password: userExist.password,
+      });
+      await user.save();
+      await verifyUsersSchema.deleteOne({ email });
+  
+      return res.status(200).json({
+        success: true,
+        message: "User verified and added successfully.",
+      });
+  
+    } catch (error) {
+      console.error("Error verifying user:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal server error.",
+      });
+    }
+  };
+  
+
+exports.loginController = async(req,res)=>{
     try {
         const {email ,password} =req.body
 
@@ -112,7 +205,7 @@ const loginController = async(req,res)=>{
     }
 }
 
-const forgotPassword =(req,re )=> {
+exports.forgotPassword =(req,re )=> {
      try {
         
         
@@ -120,7 +213,3 @@ const forgotPassword =(req,re )=> {
         
      }
 }
-
-
-module.exports ={userRegisterController , loginController}
-
