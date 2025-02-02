@@ -128,8 +128,7 @@ exports.verifyUserController = async (req, res) => {
       await verifyUsersSchema.deleteOne({ email });
   
       return res.status(200).json({
-        success: true,
-        message: "User verified and added successfully.",
+        id:user._id
       });
   
     } catch (error) {
