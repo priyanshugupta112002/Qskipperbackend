@@ -1,11 +1,11 @@
 const mongoose = require("mongoose")
 
 const verifyUsers = new mongoose.Schema({
-    email:{
+    username:{
         type:String,
         require:true
     },
-    password:{
+    email:{
         type:String,
         require:true
     },

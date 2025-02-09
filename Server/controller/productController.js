@@ -77,7 +77,6 @@ const get_All_Product = async(req, res) => {
 
 
 const get_Product_Photo = async(req,res)=>{
-    console.log("cwe")
     try {
         const {pid} =req.params
         console.log(pid)
