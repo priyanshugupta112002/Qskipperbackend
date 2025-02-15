@@ -141,7 +141,7 @@ exports.verifyUserController = async (req, res) => {
 exports.verifyLoginController = async (req, res) => {
     try {
       const { email, otp  } = req.body;
-  
+      console.log(email,otp);
 
       if (!email || !otp ) {
         return res.status(400).json({
@@ -158,6 +158,7 @@ exports.verifyLoginController = async (req, res) => {
           message: "User not found.",
         });
       }
+
   
       // Verify OTP
       const storedOtp = userExist.otp;
@@ -167,11 +168,11 @@ exports.verifyLoginController = async (req, res) => {
           message: "Invalid OTP.",
         });
       }
-  
+      console.log("cw")
       // Save user to UserSchema and delete from verifyUsersSchema
   
       return res.status(200).json({
-        id:user._id
+        id:userExist._id
       });
   
     } catch (error) {
