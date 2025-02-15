@@ -138,7 +138,7 @@ exports.verifyUserController = async (req, res) => {
     }
   };
   
-exports.verifyUserController = async (req, res) => {
+exports.verifyLoginController = async (req, res) => {
     try {
       const { email, otp  } = req.body;
   
