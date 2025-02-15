@@ -138,6 +138,51 @@ exports.verifyUserController = async (req, res) => {
     }
   };
   
+exports.verifyUserController = async (req, res) => {
+    try {
+      const { email, otp  } = req.body;
+  
+
+      if (!email || !otp ) {
+        return res.status(400).json({
+          success: false,
+          message: "Email and OTP are required.",
+        });
+      }
+  
+      // Check if user exists
+      const userExist = await UserSchema.findOne({ email });
+      if (!userExist) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found.",
+        });
+      }
+  
+      // Verify OTP
+      const storedOtp = userExist.otp;
+      if (storedOtp !== otp) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid OTP.",
+        });
+      }
+  
+      // Save user to UserSchema and delete from verifyUsersSchema
+  
+      return res.status(200).json({
+        id:user._id
+      });
+  
+    } catch (error) {
+      console.error("Error verifying user:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal server error.",
+      });
+    }
+};
+  
 
 exports.loginController = async (req, res) => {
     try {
