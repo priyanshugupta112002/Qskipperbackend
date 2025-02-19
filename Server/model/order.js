@@ -4,7 +4,11 @@ const orderSchema = new mongoose.Schema({
 
     resturant:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"resturant"
+        ref:"resturants"
+    },
+    userID:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"users"
     },
     items:[
         {

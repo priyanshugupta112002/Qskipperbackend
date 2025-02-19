@@ -110,12 +110,13 @@ const get_Product_Photo = async(req,res)=>{
 const OrderPlaced = async(req,res)=>{
    try {
   
-        const {items , price , resturantId } = req.body
+        const {items , price , resturantId , userId} = req.body
 
         const newOrder = new OrderSchema({
             items,
             totalAmount:price,
-            resturant:resturantId
+            resturant:resturantId,
+            userID:userId
 
         })
         console.log(newOrder);
