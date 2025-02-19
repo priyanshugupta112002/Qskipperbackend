@@ -116,7 +116,7 @@ exports.verifyUserController = async (req, res) => {
           message: "Invalid OTP.",
         });
       }
-  
+  ///cscscasca
       // Save user to UserSchema and delete from verifyUsersSchema
       const user = new UserSchema({
         email: userExist.email,
