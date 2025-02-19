@@ -1,5 +1,5 @@
 const express = require("express")
-const { createProductController, get_All_Product, get_Product_Photo, OrderPlaced, updatePhotoController, topPicks, updateOnOrder } = require("../controller/productController")
+const { createProductController, get_All_Product, get_Product_Photo, OrderPlaced, updatePhotoController, topPicks, updateOnOrder, userOrders } = require("../controller/productController")
 const Router = express.Router()
 const formidableMiddleware = require("express-formidable");
 
@@ -17,6 +17,8 @@ Router.get("/top-picks" , topPicks)
 Router.post("/order-placed", OrderPlaced)
 
 Router.get("/order-status/:oid", updateOnOrder)
+
+Router.get("/get-UserOrder/:pid", userOrders)
 
 
 // Router.delete("/delete-photo")

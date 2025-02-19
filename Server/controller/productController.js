@@ -208,8 +208,27 @@ const topPicks = async(req,res)=>{
 }
 
 
+const userOrders = async (req, res) => {
+    try {
+        const { pid } = req.params;
+        
+        if (!pid) {
+            return res.status(400).json({ error: "Restaurant ID is required" });
+        }
+        console.log(pid)
+        const all_orders = await OrderSchema.find({ userID: pid });
+
+        if (all_orders.length === 0) {
+            return res.status(404).json({ message: "No orders found for this restaurant" });
+        }
+
+        res.status(200).json({length:all_orders.length , all_orders});
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
 
 
 
-
-module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks , updateOnOrder }
+module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks , updateOnOrder , userOrders}
