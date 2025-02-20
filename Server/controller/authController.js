@@ -317,7 +317,7 @@ exports.resturantRegisterController = async (req, res) => {
     }
 
     // Save user details in the verification schema
-    const user = new verifyUsersSchema({
+    const user = new UserSchema({
       email,
       password,
     });
