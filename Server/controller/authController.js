@@ -242,68 +242,103 @@ exports.loginController = async (req, res) => {
     }
   };
   
-// exports.loginController = async(req,res)=>{
-//     try {
-//         const {email } =req.body
+  exports.ResturantloginController = async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
-//         if(!email ){
-//             res.status(400).send({
-//                 success:false,
-//                 message:"incomplete Credentials"
-//             })
-//         }
-//         const userExist = await UserSchema.findOne({email})
-//         if (userExist){
-//             const samePassword = await comparePassword(password ,userExist.password)
-         
-//             if (samePassword){
+        // Check if email and password are provided
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Incomplete Credentials",
+            });
+        }
 
-//                 const resturantExist = await ResturantSchema.findOne({user:userExist._id})
-//                 if(resturantExist){
-//                     res.status(202).json({
-//                         id:userExist._id,
-//                         restaurantid:resturantExist._id,
-//                         restaurantName:resturantExist.restaurant_Name,
-//                         resturantEstimateTime:resturantExist.estimatedTime,
-//                         // resturantphoto:resturantExist.bannerPhoto64Image,
-//                         resturantCusine:resturantExist.cuisine
-//                     })
-//                 }else{
-//                     res.status(202).json({
-//                         id:userExist._id,
-//                         restaurantid:"",
-//                         restaurantName:"",
-//                         resturantEstimateTime:0,
-//                         // resturantphoto:resturantExist.bannerPhoto64Image,
-//                         resturantCusine:""
-                    
-//                 })
-//                 }
-                
-//             }else{
-//                 res.status(400).send({
-//                     success:false,
-//                     message:"Invalid Credentials",
-//                     error
-//                 })
-//             }
-//         }else{
+        const userExist = await UserSchema.findOne({ email });
 
-//          res.status(400).send({
-//             success:false,
-//             message:"Invalid Credentials",
-//             error
-//         })
-//     }
-        
-//     } catch (error) {
-//         console.log("login Controller issue")
-//         res.status(400).send({
-//             success:false,
-//             message:" Error in login credentials"
-//         })
-//     }
-// }
+        if (!userExist) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid Credentials",
+            });
+        }
+
+        const samePassword = await comparePassword(password, userExist.password);
+
+        if (!samePassword) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid Credentials",
+            });
+        }
+
+        const resturantExist = await ResturantSchema.findOne({ user: userExist._id });
+
+        return res.status(200).json({
+            id: userExist._id,
+            restaurantid: resturantExist ? resturantExist._id : "",
+            restaurantName: resturantExist ? resturantExist.restaurant_Name : "",
+            resturantEstimateTime: resturantExist ? resturantExist.estimatedTime : 0,
+            resturantCusine: resturantExist ? resturantExist.cuisine : "",
+        });
+
+    } catch (error) {
+        console.error("Login Controller issue:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
+    }
+};
+
+
+exports.userRegisterController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    console.log(email, username);
+
+    // Validate input
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Incomplete credentials",
+        email,
+        password,
+      });
+    }
+
+    // Check if email already exists
+    const emailExist = await UserSchema.findOne({ email });
+    if (emailExist) {
+      return res.status(400).json({
+        success: false,
+        message: "Email already exists",
+      });
+    }
+
+    // Save user details in the verification schema
+    const user = new verifyUsersSchema({
+      email,
+      password,
+    });
+
+    await user.save();
+
+    return res.status(202).json({
+      success: true,
+      message: "Resturant registered successfully. OTP sent to email.",
+    });
+
+  } catch (error) {
+    console.error("Error in user registration:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error.",
+    });
+  }
+};
+
+
 
 exports.forgotPassword =(req,re )=> {
      try {
