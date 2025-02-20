@@ -247,6 +247,7 @@ exports.loginController = async (req, res) => {
         const { email, password } = req.body;
 
         // Check if email and password are provided
+
         if (!email || !password) {
             return res.status(400).json({
                 success: false,
@@ -294,7 +295,7 @@ exports.loginController = async (req, res) => {
 exports.resturantRegisterController = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email, username);
+    console.log(email, password);
 
     // Validate input
     if (!email || !password) {
