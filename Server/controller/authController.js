@@ -292,7 +292,7 @@ exports.loginController = async (req, res) => {
 };
 
 
-exports.userRegisterController = async (req, res) => {
+exports.resturantRegisterController = async (req, res) => {
   try {
     const { email, password } = req.body;
     console.log(email, username);
