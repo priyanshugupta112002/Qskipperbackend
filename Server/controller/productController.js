@@ -111,7 +111,7 @@ const OrderPlaced = async(req,res)=>{
    try {
   
         const {items , price , resturantId , userId} = req.body
-
+        console.log(req.body);
         const newOrder = new OrderSchema({
             items,
             totalAmount:price,
