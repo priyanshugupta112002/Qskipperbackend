@@ -214,7 +214,7 @@ const userOrders = async (req, res) => {
             return res.status(400).json({ error: "User ID is required" });
         }
         console.log(pid)
-        const all_orders = await OrderSchema.find({ userID: pid }).sort({ createdAt: -1 });;
+        const all_orders = await OrderSchema.find({ userID: pid }).sort({ Time: -1 });;
 
         if (all_orders.length === 0) {
             return res.status(404).json({ message: "No orders found for this restaurant" });
