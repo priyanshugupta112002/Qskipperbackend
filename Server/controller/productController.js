@@ -110,12 +110,12 @@ const get_Product_Photo = async(req,res)=>{
 const OrderPlaced = async(req,res)=>{
    try {
   
-        const {items , price , resturantId , userId} = req.body
+        const {items , price , resturant_id , userId} = req.body
         console.log(req.body);
         const newOrder = new OrderSchema({
             items,
             totalAmount:price,
-            resturant:resturantId,
+            resturant:resturant_id,
             userID:userId
 
         })
@@ -154,9 +154,7 @@ const updateOnOrder = async (req, res) => {
 const updatePhotoController = async(req,res)=>{
 
     try {
-        console.log(req.fields)
-        console.log(req.files)
-        console.log(req.params)
+        
         const { product_name , product_price , food_category , restaurant_id , description , extraTime ,featured_Item } =  req.fields
         const {product_photo64Image:product_photo64Image} = req.files
         if (!product_name  || !product_price || !food_category || !restaurant_id || !description ){
@@ -213,10 +211,10 @@ const userOrders = async (req, res) => {
         const { pid } = req.params;
         
         if (!pid) {
-            return res.status(400).json({ error: "Restaurant ID is required" });
+            return res.status(400).json({ error: "User ID is required" });
         }
         console.log(pid)
-        const all_orders = await OrderSchema.find({ userID: pid });
+        const all_orders = await OrderSchema.find({ userID: pid }).sort({ createdAt: -1 });;
 
         if (all_orders.length === 0) {
             return res.status(404).json({ message: "No orders found for this restaurant" });
