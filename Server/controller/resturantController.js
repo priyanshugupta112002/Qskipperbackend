@@ -117,14 +117,16 @@ const resturantOrders = async (req, res) => {
             return res.status(400).json({ error: "Restaurant ID is required" });
         }
         console.log(pid)
-        const all_orders = await OrderSchema.find({ resturant: pid }).sort({ Time: -1 }).populate('items');
+        const all_orders = await OrderSchema.find({ resturant: pid }).sort({ Time: -1 });
 
         if (all_orders.length === 0) {
             return res.status(404).json({ message: "No orders found for this restaurant" });
         }
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
         console.log("resturant orders");
         console.log(all_orders);
         res.status(200).json({length:all_orders.length , all_orders});
+
     } catch (error) {
         console.error("Error fetching orders:", error);
         res.status(500).json({ error: "Internal Server Error" });
