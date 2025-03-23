@@ -122,7 +122,8 @@ const resturantOrders = async (req, res) => {
         if (all_orders.length === 0) {
             return res.status(404).json({ message: "No orders found for this restaurant" });
         }
-
+        console.log("resturant orders");
+        console.log(all_orders);
         res.status(200).json({length:all_orders.length , all_orders});
     } catch (error) {
         console.error("Error fetching orders:", error);
