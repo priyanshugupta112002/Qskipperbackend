@@ -110,7 +110,7 @@ const get_Product_Photo = async(req,res)=>{
 const OrderPlaced = async(req,res)=>{
    try {
   
-        const {items , price , restaurantId , userId} = req.body
+        const {items , price , restaurantId , userId } = req.body
         const resturantExist = await ResturantSchema.findById(restaurantId);
         console.log(req.body);
         const newOrder = new OrderSchema({
@@ -118,7 +118,7 @@ const OrderPlaced = async(req,res)=>{
             totalAmount:price,
             resturant:restaurantId,
             userID:userId,
-            cookTime:resturantExist.estimatedTime
+            cookTime:resturantExist.estimatedTime 
 
         })
         console.log(newOrder);
