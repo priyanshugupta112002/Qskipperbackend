@@ -135,19 +135,17 @@ const resturantOrders = async (req, res) => {
 
 const orderCompleted = async (req, res) => {
     try {
-        const { oid: orderId } = req.params;
-        const { status } = req.body; 
-
         
-        const order = await OrderSchema.findById(orderId);
-
+        const { oid } = req.params;
+        const order = await OrderSchema.findByIdAndUpdate(
+            oid,
+            { status: "Complete" },
+            { new: true }
+          );
+      
         if (!order) {
             return res.status(404).json({ error: "Order not found" });
         }
-
-        // Update status
-        order.status = status;
-        await order.save();
 
         res.status(200).json({ message: "Order status updated successfully", order });
     } catch (error) {

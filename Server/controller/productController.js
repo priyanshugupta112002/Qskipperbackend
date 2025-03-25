@@ -111,16 +111,18 @@ const OrderPlaced = async(req,res)=>{
    try {
   
         const {items , price , restaurantId , userId} = req.body
-
+        const resturantExist = await ResturantSchema.findById(restaurantId);
         console.log(req.body);
         const newOrder = new OrderSchema({
             items,
             totalAmount:price,
             resturant:restaurantId,
-            userID:userId
+            userID:userId,
+            cookTime:resturantExist.estimatedTime
 
         })
         console.log(newOrder);
+        
         await newOrder.save();
 
         res.status(200).json(newOrder._id);

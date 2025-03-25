@@ -40,6 +40,10 @@ const orderSchema = new mongoose.Schema({
         default:"Placed",
         emun :["Placed" , "Prepared" , "Picked Up"]
     },
+    cookTime:{
+        type:Number,
+        default:0
+    },
     Time:{
         type:Date,   
         default:Date.now,
