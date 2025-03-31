@@ -37,7 +37,7 @@ const createProductController = async(req,res)=>{
         }
         await newProduct.save();
         console.log(newProduct)
-        return res.status(202)
+        return res.status(200)
     
    } catch (error) {
     console.log(error)
@@ -185,7 +185,7 @@ const updatePhotoController = async(req,res)=>{
         }
         await product.save();
         console.log(product)
-        return res.status(202)
+        return res.status(200)
     
    } catch (error) {
     console.log(error)
@@ -230,6 +230,34 @@ const userOrders = async (req, res) => {
     }
 };
 
+// Update or create product rating
+const RatingOfAProduct = async (req, res) => {
+    try {
+      const { rating } = req.body;
+      const { pid } = req.params;
+  
+      if (!rating || rating < 0 || rating > 5) {
+        return res.status(400).json({ message: 'Invalid rating. Must be between 0 and 5.' });
+      }
+  
+      let product = await ProductSchema.findById(pid);
+  
+      if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+  
+      const numberOfPeopleRate = product.numberOfPeopleRate || 0;
+      product.rating = ((product.rating * numberOfPeopleRate) + rating) / (numberOfPeopleRate + 1);
+      product.numberOfPeopleRate = numberOfPeopleRate + 1;
+  
+      await product.save();
+  
+      res.status(200).json({ message: 'Rating updated successfully', product });
+    } catch (error) {
+      console.error('Error updating product rating:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  };
+  
 
-
-module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks , updateOnOrder , userOrders}
+module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks , updateOnOrder , userOrders , RatingOfAProduct}

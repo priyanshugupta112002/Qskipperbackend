@@ -44,6 +44,9 @@ const orderSchema = new mongoose.Schema({
         type:Number,
         default:0
     },
+    scheduleDate:{
+        type:Date
+    },
     Time:{
         type:Date,   
         default:Date.now,

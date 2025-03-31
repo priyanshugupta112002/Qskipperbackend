@@ -51,7 +51,7 @@ const registerResturantComtroller = async(req,res)=>{
         }
         await newRseturant.save();
         console.log("ecwe")
-        return res.status(202).end(
+        return res.status(200).end(
             newRseturant._id.toString()
         )
         
@@ -91,7 +91,7 @@ const get_Retrurant_Photo = async(req,res)=>{
             return res.status(200).send(restaurant.bannerPhoto64Image.data);
           }
         
-        res.status(202).json({
+        res.status(200).json({
             restaurant:{
                 banner_photo64 :restaurant.bannerPhoto64Image
             }

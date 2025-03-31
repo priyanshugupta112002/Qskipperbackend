@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String,
     },
-    ratinge:{
+    rating:{
         type:Number,
         default:getRandomRating
     },
@@ -49,6 +49,10 @@ const productSchema = new mongoose.Schema({
     quantity:{
         type:Number,
         default:1
+    },
+    numberOfPeopleRate:{
+        type:Number,
+        default:0
     }
 })
 

@@ -55,7 +55,7 @@ exports.userRegisterController = async (req, res) => {
             userExist.otp = otp
             await userExist.save()
 
-            return res.status(202).json({
+            return res.status(200).json({
                 success: true,
                 message: "new otp is been send to the email.",
             });
@@ -71,7 +71,7 @@ exports.userRegisterController = async (req, res) => {
       await user.save();
       console.log("User created for verification:", user);
   
-      return res.status(202).json({
+      return res.status(200).json({
         success: true,
         message: "User registered successfully. OTP sent to email.",
       });
@@ -226,7 +226,7 @@ exports.loginController = async (req, res) => {
       userExist.otp = otp;
       await userExist.save();
   
-      return res.status(202).json({
+      return res.status(200).json({
         success: true,
         message: "User logged in successfully. OTP sent to email.",
         username:userExist.username,
@@ -324,7 +324,7 @@ exports.resturantRegisterController = async (req, res) => {
 
     await user.save();
 
-    return res.status(202).json({
+    return res.status(200).json({
       success: true,
       message: "Resturant registered successfully. OTP sent to email.",
     });
