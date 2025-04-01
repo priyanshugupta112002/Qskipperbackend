@@ -110,7 +110,7 @@ const get_Product_Photo = async(req,res)=>{
 const OrderPlaced = async(req,res)=>{
    try {
   
-        const {items , price , restaurantId , userId } = req.body
+        const {items , price , restaurantId , userId  ,takeAway} = req.body
         const resturantExist = await ResturantSchema.findById(restaurantId);
         console.log(req.body);
         const newOrder = new OrderSchema({
@@ -118,7 +118,8 @@ const OrderPlaced = async(req,res)=>{
             totalAmount:price,
             resturant:restaurantId,
             userID:userId,
-            cookTime:resturantExist.estimatedTime 
+            cookTime:resturantExist.estimatedTime,
+            takeAway
 
         })
         console.log(newOrder);
@@ -133,6 +134,36 @@ const OrderPlaced = async(req,res)=>{
     
    }
 }
+
+const scheduleOrderPlaced = async(req,res)=>{
+    try {
+   
+         const {items , price , restaurantId , userId , scheduleDate , takeAway} = req.body
+         const resturantExist = await ResturantSchema.findById(restaurantId);
+         console.log(req.body);
+         const newOrder = new OrderSchema({
+             items,
+             totalAmount:price,
+             resturant:restaurantId,
+             userID:userId,
+             cookTime:resturantExist.estimatedTime,
+             scheduleDate,
+             takeAway
+ 
+         })
+         console.log(newOrder);
+         
+         await newOrder.save();
+ 
+         res.status(200).json(newOrder._id);
+     
+    } catch (error) {
+         res.status(404)
+         console.log("order status error")
+     
+    }
+ }
+
 
 const updateOnOrder = async (req, res) => {
     try {
@@ -260,4 +291,4 @@ const RatingOfAProduct = async (req, res) => {
   };
   
 
-module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks , updateOnOrder , userOrders , RatingOfAProduct}
+module.exports = {createProductController , get_All_Product , get_Product_Photo , OrderPlaced , updatePhotoController , topPicks , updateOnOrder , userOrders , RatingOfAProduct , scheduleOrderPlaced}

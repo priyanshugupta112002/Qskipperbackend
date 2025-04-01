@@ -139,7 +139,7 @@ const orderCompleted = async (req, res) => {
         const { oid } = req.params;
         const order = await OrderSchema.findByIdAndUpdate(
             oid,
-            { status: "Complete" },
+            { status: "Completed" },
             { new: true }
           );
       

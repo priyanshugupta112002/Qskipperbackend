@@ -38,11 +38,15 @@ const orderSchema = new mongoose.Schema({
         type:String,
         require:true,
         default:"Placed",
-        emun :["Placed" , "Prepared" , "Picked Up"]
+        emun :["Placed" , "Prepared" , "Picked Up" , "Completed"]
     },
     cookTime:{
         type:Number,
         default:0
+    },
+    takeAway:{
+        type:Boolean,
+        default:true
     },
     scheduleDate:{
         type:Date
