@@ -230,7 +230,7 @@ const userOrders = async (req, res) => {
     }
 };
 
-// Update or create product rating
+//  create product rating
 const RatingOfAProduct = async (req, res) => {
     try {
       const { rating } = req.body;
