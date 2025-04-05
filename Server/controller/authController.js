@@ -131,7 +131,7 @@ exports.userRegisterController = async (req, res) => {
               id:userExist._id
             });
           }
-          const user = new verifyUsersSchema({
+          const user = new UserSchema({
             email,
           });
       
