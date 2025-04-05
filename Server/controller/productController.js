@@ -111,6 +111,14 @@ const OrderPlaced = async(req,res)=>{
    try {
   
         const {items , price , restaurantId , userId  ,takeAway} = req.body
+
+        if (!items || !price || !restaurantId || !userId || !takeAway ){
+            res.status(400).send({
+            success:false,
+            message:"incomplete Credentials"
+        })
+    }
+
         const resturantExist = await ResturantSchema.findById(restaurantId);
         console.log(req.body);
         const newOrder = new OrderSchema({
@@ -139,6 +147,14 @@ const scheduleOrderPlaced = async(req,res)=>{
     try {
    
          const {items , price , restaurantId , userId , scheduleDate , takeAway} = req.body
+
+         if (!items || !price || !restaurantId || !userId || !takeAway ||  !scheduleDate){
+            res.status(400).send({
+            success:false,
+            message:"incomplete Credentials"
+        })
+        }
+
          const resturantExist = await ResturantSchema.findById(restaurantId);
          console.log(req.body);
          const newOrder = new OrderSchema({

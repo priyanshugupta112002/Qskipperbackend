@@ -4,11 +4,21 @@ const {hashedPassword , comparePassword} = require("../passwordEncryption/passwo
 const { ResturantSchema } = require("../model/shopOwners")
 const {  sendOTPEmail} = require("./emailService")
 const verifyUsersSchema = require("../model/verifyUser")
+const jwksClient = require('jwks-rsa');
 
 function generateOTP(){
     return  Math.floor(100000 + Math.random() * 900000).toString();
     
 } 
+
+
+
+
+const client = jwksClient({
+     jwksUri: 'https://appleid.apple.com/auth/keys'
+    
+});
+
 exports.userRegisterController = async (req, res) => {
     try {
       const { email, username } = req.body;
@@ -86,6 +96,65 @@ exports.userRegisterController = async (req, res) => {
   };
 
   
+  exports.userAppleRegisterController = async (req, res) => {
+    try {
+      const { identityToken , user } = req.body;
+      console.log(user, identityToken);
+  
+      // Validate input
+      if (!identityToken || !user) {
+        return res.status(400).json({
+          success: false,
+          message: "Incomplete credentials",
+          username,
+        });
+      }
+     
+      const json = jwt.decode(identityToken , {complete:true})
+
+      const kid = json?.header?.kid;
+      const key = await client.getSigningKey(kid);
+      const signingKey = key.getPublicKey();
+
+
+      const verifiedPayload = jwt.verify(identityToken, signingKey, {
+        algorithms: ['RS256'],
+        issuer: 'https://appleid.apple.com'
+      });
+      console.log(verifiedPayload)
+      if(verifiedPayload.sub == user && verifiedPayload.aud == "Team.Qskipper.QSkipper"){
+        const email = verifiedPayload.email;
+          const userExist = await UserSchema.findOne({ email });
+
+          if(userExist){
+            return res.status(200).json({
+              id:userExist._id
+            });
+          }
+          const user = new verifyUsersSchema({
+            email,
+          });
+      
+          await user.save();
+          return res.status(200).json({
+            id:user._id
+          });
+      }else{
+        throw Error("Server Error")
+      }
+  
+    } catch (error) {
+      console.error("Error in user registration:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal server error.",
+      });
+    }
+  };
+
+  
+
+
 
 exports.verifyUserController = async (req, res) => {
     try {
