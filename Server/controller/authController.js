@@ -124,7 +124,7 @@ exports.userRegisterController = async (req, res) => {
       if(verifiedPayload.sub == user && verifiedPayload.aud == "Team.Qskipper.QSkipper"){
         const email = verifiedPayload.email;
           const userExist = await UserSchema.findOne({ email });
-
+         
           if(userExist){
             return res.status(200).json({
               id:userExist._id,
