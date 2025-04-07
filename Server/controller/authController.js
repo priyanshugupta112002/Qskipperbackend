@@ -106,7 +106,6 @@ exports.userRegisterController = async (req, res) => {
         return res.status(400).json({
           success: false,
           message: "Incomplete credentials",
-          username,
         });
       }
      
@@ -129,7 +128,7 @@ exports.userRegisterController = async (req, res) => {
           if(userExist){
             return res.status(200).json({
               id:userExist._id,
-              
+              username:userExist.username
             });
           }
           const user = new UserSchema({
@@ -139,7 +138,8 @@ exports.userRegisterController = async (req, res) => {
       
           await user.save();
           return res.status(200).json({
-            id:user._id
+            id:user._id,
+            username:verifiedPayload.givenName
           });
       }else{
         throw Error("Server Error")
