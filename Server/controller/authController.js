@@ -128,11 +128,13 @@ exports.userRegisterController = async (req, res) => {
 
           if(userExist){
             return res.status(200).json({
-              id:userExist._id
+              id:userExist._id,
+              
             });
           }
           const user = new UserSchema({
             email,
+            username:verifiedPayload.givenName
           });
       
           await user.save();
