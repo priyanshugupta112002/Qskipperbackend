@@ -142,12 +142,12 @@ const orderCompleted = async (req, res) => {
             { status: "Completed" },
             { new: true }
           );
-      
+          
         if (!order) {
             return res.status(404).json({ error: "Order not found" });
         }
 
-        res.status(200).json({ message: "Order status updated successfully", order });
+        res.status(200)
     } catch (error) {
         console.error("Error updating order:", error);
         res.status(500).json({ error: "Internal Server Error" });
