@@ -1,7 +1,8 @@
 const express = require("express")
-const { createProductController, get_All_Product, get_Product_Photo, OrderPlaced, updatePhotoController, topPicks, updateOnOrder, userOrders, RatingOfAProduct, scheduleOrderPlaced } = require("../controller/productController")
+const { createProductController, get_All_Product, get_Product_Photo, updatePhotoController, topPicks, updateOnOrder, userOrders, RatingOfAProduct, scheduleOrderPlaced } = require("../controller/productController")
 const Router = express.Router()
 const formidableMiddleware = require("express-formidable");
+const { OrderPlaced, verifyOrder } = require("../controller/razorpayController");
 
 Router.post("/create-product" , formidableMiddleware(), createProductController)
 
@@ -14,6 +15,8 @@ Router.put("/update-food/:pid", formidableMiddleware() ,updatePhotoController)
 Router.get("/top-picks" , topPicks)
 
 Router.post("/order-placed", OrderPlaced)
+
+Router.post("/verify-order",verifyOrder)
 
 Router.post("/schedule-order-placed", scheduleOrderPlaced)
 

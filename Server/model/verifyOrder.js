@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const orderSchema = new mongoose.Schema({
+const verifyOrder = new mongoose.Schema({
 
     resturant:{
         type:mongoose.Schema.Types.ObjectId,
@@ -30,10 +30,6 @@ const orderSchema = new mongoose.Schema({
             }
         }
     ],
-    paymentStatus:{
-        type:String,
-
-    },
     totalAmount:{
         type:String,
         require:true
@@ -43,6 +39,9 @@ const orderSchema = new mongoose.Schema({
         require:true,
         default:"Placed",
         emun :["Placed" , "Prepared" , "Picked Up" , "Completed"]
+    },
+    razorpayOrderId:{
+        type:String
     },
     cookTime:{
         type:Number,
@@ -62,5 +61,5 @@ const orderSchema = new mongoose.Schema({
     }
 })
 
-const OrderSchema = mongoose.model('order' , orderSchema);
-module.exports = {OrderSchema}
+const verifyOrderSchema = mongoose.model('verifyOrder' , verifyOrder);
+module.exports = {verifyOrderSchema}
