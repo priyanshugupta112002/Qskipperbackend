@@ -151,7 +151,6 @@ exports.verifyOrder = async (req, res) => {
               // Create a new order in the final Order collection
               const newOrder = new OrderSchema(orderRecord.toObject());
 
-              newOrder.paymentStatus = "Verified";
               await newOrder.save();
         
               // Remove the order record from verifyOrderSchema

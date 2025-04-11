@@ -30,10 +30,6 @@ const orderSchema = new mongoose.Schema({
             }
         }
     ],
-    paymentStatus:{
-        type:String,
-
-    },
     totalAmount:{
         type:String,
         require:true
