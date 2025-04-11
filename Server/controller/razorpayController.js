@@ -122,10 +122,10 @@ exports.OrderPlaced = async (req, res) => {
 
 exports.verifyOrder = async (req, res) => {
     try {
-        const { order_id, payment_id } = req.body;
+        const { order_id } = req.body;
 
         // Check if all required fields are present
-        if (!order_id || !payment_id ) {
+        if (!order_id  ) {
             return res.status(400)
         }
 
