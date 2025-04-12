@@ -136,10 +136,7 @@ exports.scheduleOrderPlaced = async(req,res)=>{
          });
 
 
-         
-         
- 
-         res.status(200).json(newOrder._id);
+        
      
     } catch (error) {
          res.status(404)
