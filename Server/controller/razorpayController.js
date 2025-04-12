@@ -114,8 +114,8 @@ exports.verifyOrder = async (req, res) => {
                 const deletedRecord = await verifyOrderSchema.findByIdAndDelete(orderRecord._id);
                 console.log(deletedRecord)
                 return res.status(200).json({
-                    id:order.id,
-                });
+                    success:true
+                })
         
     } catch (error) {
         console.error("Error verifying payment:", error);
@@ -138,7 +138,8 @@ exports.scheduleOrderPlaced = async(req,res)=>{
 
          const resturantExist = await ResturantSchema.findById(restaurantId);
          console.log(req.body);
-         const newOrder = new OrderSchema({
+
+         const newOrder = new verifyOrderSchema({
              items,
              totalAmount:price,
              resturant:restaurantId,
@@ -149,10 +150,22 @@ exports.scheduleOrderPlaced = async(req,res)=>{
  
          })
          console.log(newOrder);
-         
-         await newOrder.save();
- 
-         res.status(200).json(newOrder._id);
+
+        const razorpayInstanceObj = razorPayInstance();
+        razorpayInstanceObj.orders.create(options,async(err, order) => {
+            if (err) {
+                console.error("Error creating Razorpay order:", err);
+                return res.status(500)
+            }
+            newOrder.razorpayOrderId = order.id;
+            await newOrder.save();
+            console.log(order.id , order)
+
+            return res.status(200).json({
+                id:order.id,
+            });
+        });
+
      
     } catch (error) {
          res.status(404)
