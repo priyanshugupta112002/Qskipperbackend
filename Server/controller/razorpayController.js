@@ -72,53 +72,6 @@ exports.OrderPlaced = async (req, res) => {
 };
 
 
-// exports.verifyOrder = async (req, res) => {
-//     try {
-//         const { order_id, payment_id, signature } = req.body;
-
-//         // Check if all required fields are present
-//         if (!order_id || !payment_id || !signature) {
-//             return res.status(400)
-//         }
-
-//         const secret = process.env.RAZORPAY_SECRET_KEY;
-
-//         // Generate the expected signature
-//         const hmac = crypto.createHmac("sha256", secret);
-//         hmac.update(`${order_id}|${payment_id}`);
-//         const generatedSignature = hmac.digest("hex");
-
-//         // Compare signatures
-//         if (generatedSignature === signature) {
-
-//             const orderRecord = await verifyOrderSchema.findOne({ razorpayOrderId: order_id });
-
-//             if (!orderRecord) {
-//                 return res.status(404).json({
-//                   success: false,
-//                   message: "Order record not found in pending orders."
-//                 });
-//               }
-        
-//               // Create a new order in the final Order collection
-//               const newOrder = new OrderSchema(orderRecord.toObject());
-
-//               newOrder.paymentStatus = "Verified";
-//               await newOrder.save();
-        
-//               // Remove the order record from verifyOrderSchema
-//               await verifyOrderSchema.findByIdAndDelete(orderRecord._id);
-
-
-//              return res.status(200)
-//         } else {
-//             return res.status(400)
-//         }
-//     } catch (error) {
-//         console.error("Error verifying payment:", error);
-//         res.status(500)
-//     }
-// };
 
 exports.verifyOrder = async (req, res) => {
     try {
@@ -169,6 +122,49 @@ exports.verifyOrder = async (req, res) => {
         res.status(500)
     }
 };
+
+
+exports.scheduleOrderPlaced = async(req,res)=>{
+    try {
+   
+         const {items , price , restaurantId , userId , scheduleDate , takeAway} = req.body
+
+         if (!items || !price || !restaurantId || !userId || !takeAway ||  !scheduleDate){
+            res.status(400).send({
+            success:false,
+            message:"incomplete Credentials"
+        })
+        }
+
+         const resturantExist = await ResturantSchema.findById(restaurantId);
+         console.log(req.body);
+         const newOrder = new OrderSchema({
+             items,
+             totalAmount:price,
+             resturant:restaurantId,
+             userID:userId,
+             cookTime:resturantExist.estimatedTime,
+             scheduleDate,
+             takeAway
+ 
+         })
+         console.log(newOrder);
+         
+         await newOrder.save();
+ 
+         res.status(200).json(newOrder._id);
+     
+    } catch (error) {
+         res.status(404)
+         console.log("order status error")
+     
+    }
+ }
+
+
+
+
+
 
 
 

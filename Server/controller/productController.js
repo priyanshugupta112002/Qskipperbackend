@@ -236,4 +236,4 @@ const RatingOfAProduct = async (req, res) => {
   };
   
 
-module.exports = {createProductController , get_All_Product , get_Product_Photo  , updatePhotoController , topPicks , updateOnOrder , userOrders , RatingOfAProduct}
+module.exports = {createProductController , get_All_Product , get_Product_Photo  , updatePhotoController , topPicks , updateOnOrder , userOrders , RatingOfAProduct }
