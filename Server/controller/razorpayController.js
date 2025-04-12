@@ -147,14 +147,26 @@ exports.verifyOrder = async (req, res) => {
                   message: "Order record not found in pending orders."
                 });
               }
+
+
+                const orderData = orderRecord.toObject();
+                delete orderData.razorpayOrderId; // remove if OrderSchema doesn't support this
+
+                const newOrder = new OrderSchema(orderData);
+                await newOrder.save();
+
+                // Remove the record from verifyOrderSchema after saving
+                await verifyOrderSchema.findByIdAndDelete(orderRecord._id);
+
+
         
               // Create a new order in the final Order collection
-              const newOrder = new OrderSchema(orderRecord.toObject());
+            //   const newOrder = new OrderSchema(orderRecord.toObject());
 
-              await newOrder.save();
+            //   await newOrder.save();
         
-              // Remove the order record from verifyOrderSchema
-              await verifyOrderSchema.findByIdAndDelete(orderRecord._id);
+            //   // Remove the order record from verifyOrderSchema
+            //   await verifyOrderSchema.findByIdAndDelete(orderRecord._id);
 
              return res.status(200)
         
