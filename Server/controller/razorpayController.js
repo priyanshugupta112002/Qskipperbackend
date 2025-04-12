@@ -34,17 +34,24 @@ exports.OrderPlaced = async (req, res) => {
         };
         const resturantExist = await ResturantSchema.findById(restaurantId);
         
-        const newOrder = new verifyOrderSchema({
-                        items,
-                        totalAmount:price,
-                        resturant:restaurantId,
-                        userID:userId,
-                        cookTime:resturantExist.estimatedTime,
-                        takeAway
-        })
-        
+        // const newOrder = new verifyOrderSchema({
+        //                 items,
+        //                 totalAmount:price,
+        //                 resturant:restaurantId,
+        //                 userID:userId,
+        //                 cookTime:resturantExist.estimatedTime,
+        //                 takeAway
+        // })
+        const newOrder = new OrderSchema({
+            items,
+            totalAmount:price,
+            resturant:restaurantId,
+            userID:userId,
+            cookTime:resturantExist.estimatedTime,
+            takeAway
+})
         // Razorpay create order
-
+        await newOrder.save();
         
         const razorpayInstanceObj = razorPayInstance();
         razorpayInstanceObj.orders.create(options,async(err, order) => {
@@ -52,9 +59,9 @@ exports.OrderPlaced = async (req, res) => {
                 console.error("Error creating Razorpay order:", err);
                 return res.status(500)
             }
-            newOrder.razorpayOrderId = order.id;
-            await newOrder.save();
-            console.log(order.id , order)
+            // newOrder.razorpayOrderId = order.id;
+            // await newOrder.save();
+            // console.log(order.id , order)
 
             return res.status(200).json({
                 id:order.id,
@@ -165,7 +172,6 @@ exports.verifyOrder = async (req, res) => {
                 return res.status(200).json({
                     success: true,
                   });
-                  
     } catch (error) {
         console.error("Error verifying payment:", error);
         res.status(500)
