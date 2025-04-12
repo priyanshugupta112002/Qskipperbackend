@@ -130,13 +130,19 @@ exports.scheduleOrderPlaced = async(req,res)=>{
          const {items , price , restaurantId , userId , scheduleDate , takeAway} = req.body
 
          if (!items || !price || !restaurantId || !userId || !takeAway ||  !scheduleDate){
-            res.status(400).send({
+            return res.status(400).send({
             success:false,
             message:"incomplete Credentials"
         })
         }
 
          const resturantExist = await ResturantSchema.findById(restaurantId);
+         if (!resturantExist) {
+            return res.status(404).json({
+                success: false,
+                message: "Restaurant not found"
+            });
+        }
          console.log(req.body);
 
          const newOrder = new verifyOrderSchema({
@@ -151,6 +157,12 @@ exports.scheduleOrderPlaced = async(req,res)=>{
          })
          console.log(newOrder);
 
+         const options = {
+            amount: price * 100, // amount in paise
+            currency: "INR",
+            receipt: `receipt_order_${Date.now()}`,
+        };
+
         const razorpayInstanceObj = razorPayInstance();
         razorpayInstanceObj.orders.create(options,async(err, order) => {
             if (err) {
@@ -159,7 +171,7 @@ exports.scheduleOrderPlaced = async(req,res)=>{
             }
             newOrder.razorpayOrderId = order.id;
             await newOrder.save();
-            console.log(order.id , order)
+            
 
             return res.status(200).json({
                 id:order.id,
