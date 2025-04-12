@@ -108,42 +108,6 @@ const get_Product_Photo = async(req,res)=>{
 }
 
 
-const scheduleOrderPlaced = async(req,res)=>{
-    try {
-   
-         const {items , price , restaurantId , userId , scheduleDate , takeAway} = req.body
-
-         if (!items || !price || !restaurantId || !userId || !takeAway ||  !scheduleDate){
-            res.status(400).send({
-            success:false,
-            message:"incomplete Credentials"
-        })
-        }
-
-         const resturantExist = await ResturantSchema.findById(restaurantId);
-         console.log(req.body);
-         const newOrder = new OrderSchema({
-             items,
-             totalAmount:price,
-             resturant:restaurantId,
-             userID:userId,
-             cookTime:resturantExist.estimatedTime,
-             scheduleDate,
-             takeAway
- 
-         })
-         console.log(newOrder);
-         
-         await newOrder.save();
- 
-         res.status(200).json(newOrder._id);
-     
-    } catch (error) {
-         res.status(404)
-         console.log("order status error")
-     
-    }
- }
 
 
 const updateOnOrder = async (req, res) => {
@@ -272,4 +236,4 @@ const RatingOfAProduct = async (req, res) => {
   };
   
 
-module.exports = {createProductController , get_All_Product , get_Product_Photo  , updatePhotoController , topPicks , updateOnOrder , userOrders , RatingOfAProduct , scheduleOrderPlaced}
+module.exports = {createProductController , get_All_Product , get_Product_Photo  , updatePhotoController , topPicks , updateOnOrder , userOrders , RatingOfAProduct}

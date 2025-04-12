@@ -42,6 +42,10 @@ exports.OrderPlaced = async (req, res) => {
         //                 cookTime:resturantExist.estimatedTime,
         //                 takeAway
         // })
+
+        
+
+
         const newOrder = new OrderSchema({
             items,
             totalAmount:price,
@@ -51,7 +55,7 @@ exports.OrderPlaced = async (req, res) => {
             takeAway
 })
         // Razorpay create order
-        await newOrder.save();
+        
         
         const razorpayInstanceObj = razorPayInstance();
         razorpayInstanceObj.orders.create(options,async(err, order) => {
@@ -62,6 +66,7 @@ exports.OrderPlaced = async (req, res) => {
             // newOrder.razorpayOrderId = order.id;
             // await newOrder.save();
             // console.log(order.id , order)
+            await newOrder.save();
 
             return res.status(200).json({
                 id:order.id,
@@ -77,6 +82,76 @@ exports.OrderPlaced = async (req, res) => {
         });
     }
 };
+
+
+
+exports.scheduleOrderPlaced = async(req,res)=>{
+    try {
+   
+         const {items , price , restaurantId , userId , scheduleDate , takeAway} = req.body
+
+         if (!items || !price || !restaurantId || !userId || !takeAway ||  !scheduleDate){
+            res.status(400).send({
+            success:false,
+            message:"incomplete Credentials"
+        })
+        }
+
+         const resturantExist = await ResturantSchema.findById(restaurantId);
+         console.log(req.body);
+         const newOrder = new OrderSchema({
+             items,
+             totalAmount:price,
+             resturant:restaurantId,
+             userID:userId,
+             cookTime:resturantExist.estimatedTime,
+             scheduleDate,
+             takeAway
+ 
+         })
+
+         const options = {
+            amount: price * 100, // amount in paise
+            currency: "INR",
+            receipt: `receipt_order_${Date.now()}`,
+        };
+
+
+         console.log(newOrder);
+
+         const razorpayInstanceObj = razorPayInstance();
+         razorpayInstanceObj.orders.create(options,async(err, order) => {
+             if (err) {
+                 console.error("Error creating Razorpay order:", err);
+                 return res.status(500)
+             }
+             // newOrder.razorpayOrderId = order.id;
+             // await newOrder.save();
+             // console.log(order.id , order)
+             await newOrder.save();
+ 
+             return res.status(200).json({
+                 id:order.id,
+             });
+         });
+
+
+         
+         
+ 
+         res.status(200).json(newOrder._id);
+     
+    } catch (error) {
+         res.status(404)
+         console.log("order status error")
+     
+    }
+ }
+
+
+
+
+
 
 
 // exports.verifyOrder = async (req, res) => {
