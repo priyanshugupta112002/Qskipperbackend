@@ -75,13 +75,10 @@ exports.OrderPlaced = async (req, res) => {
 
 exports.verifyOrder = async (req, res) => {
     try {
-
-
-        console.log(req.body)
-        const { orderId } = req.body;
+        const { order_id } = req.body;
 
         // Check if all required fields are present
-        if (!orderId  ) {
+        if (!order_id  ) {
             return res.status(400)
         }
 
@@ -95,7 +92,7 @@ exports.verifyOrder = async (req, res) => {
         // Compare signatures
         // if (generatedSignature === signature) {
 
-            const orderRecord = await verifyOrderSchema.findOne({ razorpayOrderId: orderId });
+            const orderRecord = await verifyOrderSchema.findOne({ razorpayOrderId: order_id });
 
             if (!orderRecord) {
                 return res.status(404).json({
