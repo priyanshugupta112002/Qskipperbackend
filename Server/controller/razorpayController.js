@@ -75,6 +75,9 @@ exports.OrderPlaced = async (req, res) => {
 
 exports.verifyOrder = async (req, res) => {
     try {
+
+
+        console.log(req.body)
         const { orderId } = req.body;
 
         // Check if all required fields are present
