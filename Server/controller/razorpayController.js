@@ -34,28 +34,17 @@ exports.OrderPlaced = async (req, res) => {
         };
         const resturantExist = await ResturantSchema.findById(restaurantId);
         
-        // const newOrder = new verifyOrderSchema({
-        //                 items,
-        //                 totalAmount:price,
-        //                 resturant:restaurantId,
-        //                 userID:userId,
-        //                 cookTime:resturantExist.estimatedTime,
-        //                 takeAway
-        // })
-
+        const newOrder = new verifyOrderSchema({
+                        items,
+                        totalAmount:price,
+                        resturant:restaurantId,
+                        userID:userId,
+                        cookTime:resturantExist.estimatedTime,
+                        takeAway
+        })
         
-
-
-        const newOrder = new OrderSchema({
-            items,
-            totalAmount:price,
-            resturant:restaurantId,
-            userID:userId,
-            cookTime:resturantExist.estimatedTime,
-            takeAway
-})
         // Razorpay create order
-        
+
         
         const razorpayInstanceObj = razorPayInstance();
         razorpayInstanceObj.orders.create(options,async(err, order) => {
@@ -63,10 +52,9 @@ exports.OrderPlaced = async (req, res) => {
                 console.error("Error creating Razorpay order:", err);
                 return res.status(500)
             }
-            // newOrder.razorpayOrderId = order.id;
-            // await newOrder.save();
-            // console.log(order.id , order)
+            newOrder.razorpayOrderId = order.id;
             await newOrder.save();
+            console.log(order.id , order)
 
             return res.status(200).json({
                 id:order.id,
@@ -82,73 +70,6 @@ exports.OrderPlaced = async (req, res) => {
         });
     }
 };
-
-
-
-exports.scheduleOrderPlaced = async(req,res)=>{
-    try {
-   
-         const {items , price , restaurantId , userId , scheduleDate , takeAway} = req.body
-
-         if (!items || !price || !restaurantId || !userId || !takeAway ||  !scheduleDate){
-            res.status(400).send({
-            success:false,
-            message:"incomplete Credentials"
-        })
-        }
-
-         const resturantExist = await ResturantSchema.findById(restaurantId);
-         console.log(req.body);
-         const newOrder = new OrderSchema({
-             items,
-             totalAmount:price,
-             resturant:restaurantId,
-             userID:userId,
-             cookTime:resturantExist.estimatedTime,
-             scheduleDate,
-             takeAway
- 
-         })
-
-         const options = {
-            amount: price * 100, // amount in paise
-            currency: "INR",
-            receipt: `receipt_order_${Date.now()}`,
-        };
-
-
-         console.log(newOrder);
-
-         const razorpayInstanceObj = razorPayInstance();
-         razorpayInstanceObj.orders.create(options,async(err, order) => {
-             if (err) {
-                 console.error("Error creating Razorpay order:", err);
-                 return res.status(500)
-             }
-             // newOrder.razorpayOrderId = order.id;
-             // await newOrder.save();
-             // console.log(order.id , order)
-             await newOrder.save();
- 
-             return res.status(200).json({
-                 id:order.id,
-             });
-         });
-
-
-        
-     
-    } catch (error) {
-         res.status(404)
-         console.log("order status error")
-     
-    }
- }
-
-
-
-
-
 
 
 // exports.verifyOrder = async (req, res) => {
@@ -239,11 +160,10 @@ exports.verifyOrder = async (req, res) => {
                 // Remove the record from verifyOrderSchema after saving
                 const deletedRecord = await verifyOrderSchema.findByIdAndDelete(orderRecord._id);
                 console.log(deletedRecord)
-
-                // await verifyUsersSchema.deleteOne({ email });
                 return res.status(200).json({
-                    success: true,
-                  });
+                    id:order.id,
+                });
+        
     } catch (error) {
         console.error("Error verifying payment:", error);
         res.status(500)
