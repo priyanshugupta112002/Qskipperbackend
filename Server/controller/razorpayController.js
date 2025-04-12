@@ -151,25 +151,21 @@ exports.verifyOrder = async (req, res) => {
 
                 const orderData = orderRecord.toObject();
                 delete orderData.razorpayOrderId; // remove if OrderSchema doesn't support this
+                
 
                 const newOrder = new OrderSchema(orderData);
                 await newOrder.save();
-
+                console.log(newOrder)
+                console.log(orderRecord._id)
                 // Remove the record from verifyOrderSchema after saving
-                await verifyOrderSchema.findByIdAndDelete(orderRecord._id);
+                const deletedRecord = await verifyOrderSchema.findByIdAndDelete(orderRecord._id);
+                console.log(deletedRecord)
 
-
-        
-              // Create a new order in the final Order collection
-            //   const newOrder = new OrderSchema(orderRecord.toObject());
-
-            //   await newOrder.save();
-        
-            //   // Remove the order record from verifyOrderSchema
-            //   await verifyOrderSchema.findByIdAndDelete(orderRecord._id);
-
-             return res.status(200)
-        
+                // await verifyUsersSchema.deleteOne({ email });
+                return res.status(200).json({
+                    success: true,
+                  });
+                  
     } catch (error) {
         console.error("Error verifying payment:", error);
         res.status(500)
