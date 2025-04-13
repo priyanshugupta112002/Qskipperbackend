@@ -129,12 +129,11 @@ exports.scheduleOrderPlaced = async(req,res)=>{
    
          const {items , price , restaurantId , userId , scheduleDate , takeAway} = req.body
 
-         if (!items || !price || !restaurantId || !userId || !takeAway ||  !scheduleDate){
+         if (!items || !price || !restaurantId || !userId || !takeAway || !scheduleDate){
             return res.status(400).send({
             success:false,
             message:"incomplete Credentials"
-        })
-        }
+        })}
 
          const resturantExist = await ResturantSchema.findById(restaurantId);
          if (!resturantExist) {
@@ -152,7 +151,7 @@ exports.scheduleOrderPlaced = async(req,res)=>{
              userID:userId,
              cookTime:resturantExist.estimatedTime,
              scheduleDate,
-             takeAway
+             takeAway:false
  
          })
          console.log(newOrder);
