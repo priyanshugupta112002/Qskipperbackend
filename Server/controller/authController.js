@@ -313,7 +313,7 @@ exports.loginController = async (req, res) => {
     }
   };
   
-  exports.ResturantloginController = async (req, res) => {
+exports.ResturantloginController = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -396,8 +396,7 @@ exports.resturantRegisterController = async (req, res) => {
     await user.save();
 
     return res.status(200).json({
-      success: true,
-      message: "Resturant registered successfully. OTP sent to email.",
+      id:user._id
     });
 
   } catch (error) {
