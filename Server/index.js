@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
+const fetch = require("node-fetch"); 
 const { connectDB } =require("./config/db")
 
 
@@ -31,3 +32,13 @@ app.get('/',(req,res)=>{
 app.listen(PORT , ()=>{
     console.log(`hi QSkipper app is here ${PORT}`)
 })
+
+
+// --- keep-alive ping ---
+const KEEP_ALIVE_INTERVAL = 10 * 60 * 1000;  // 10 minutes
+setInterval(() => {
+  const url = process.env.ROOT_URL || `https://qskipperbackend.onrender.com/`;
+  fetch(url)
+    .then(res => console.log(`Self-ping success: ${res.status}`))
+    .catch(err => console.error("Self-ping error:", err));
+}, KEEP_ALIVE_INTERVAL);
