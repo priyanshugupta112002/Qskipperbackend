@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema({
         type:String,
         require:true,
         default:"Placed",
-        emun :["Placed" , "Prepared" , "Picked Up" , "Completed" , "Schedule"]
+        emun :["Placed" , "Prepared" , "Picked Up" , "Completed" , "Scheduled"]
     },
     cookTime:{
         type:Number,
