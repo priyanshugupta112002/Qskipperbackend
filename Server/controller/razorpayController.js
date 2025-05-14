@@ -71,8 +71,6 @@ exports.OrderPlaced = async (req, res) => {
     }
 };
 
-
-
 exports.verifyOrder = async (req, res) => {
     try {
         const { order_id } = req.body;
@@ -108,8 +106,8 @@ exports.verifyOrder = async (req, res) => {
 
                 const newOrder = new OrderSchema(orderData);
                 await newOrder.save();
-                console.log(newOrder)
-                console.log(orderRecord._id)
+                // console.log(newOrder)
+                // console.log(orderRecord._id)
                 // Remove the record from verifyOrderSchema after saving
                 const deletedRecord = await verifyOrderSchema.findByIdAndDelete(orderRecord._id);
                 console.log(deletedRecord)
@@ -151,7 +149,8 @@ exports.scheduleOrderPlaced = async(req,res)=>{
              userID:userId,
              cookTime:resturantExist.estimatedTime,
              scheduleDate,
-             takeAway:false
+             takeAway:false,
+             status:"Schedule"
  
          })
          console.log(newOrder);
