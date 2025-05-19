@@ -34,11 +34,11 @@ app.listen(PORT , ()=>{
 })
 
 
-// --- keep-alive ping ---
-const KEEP_ALIVE_INTERVAL = 1 * 60 * 1000;  // 10 minutes
-setInterval(() => {
-  const url = process.env.ROOT_URL || `https://qskipperbackend.onrender.com/`;
-  fetch(url)
-    .then(res => console.log(`Self-ping success: ${res.status}`))
-    .catch(err => console.error("Self-ping error:", err));
-}, KEEP_ALIVE_INTERVAL);
+// // --- keep-alive ping ---
+// const KEEP_ALIVE_INTERVAL = 1 * 60 * 1000;  // 10 minutes
+// setInterval(() => {
+//   const url = process.env.ROOT_URL || `https://qskipperbackend.onrender.com/`;
+//   fetch(url)
+//     .then(res => console.log(`Self-ping success: ${res.status}`))
+//     .catch(err => console.error("Self-ping error:", err));
+// }, KEEP_ALIVE_INTERVAL);
