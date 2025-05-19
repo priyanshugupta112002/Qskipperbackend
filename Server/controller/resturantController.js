@@ -15,16 +15,16 @@ const registerResturantComtroller = async(req,res)=>{
     try {
         
 
-        console.log(req.files)
-        const { userId:user,  restaurant_Name:restaurant_Name , cuisines:cuisine ,estimatedTime:estimatedTime } = req.fields
+        console.log(req.fields)
+        const { userId,  restaurant_Name , cuisines ,estimatedTime } = req.fields
         const {bannerPhoto64Image:bannerPhoto64Image} = req.files
 
-        console.log(user, restaurant_Name ,cuisine , estimatedTime )
+        console.log(userId, restaurant_Name ,cuisines , estimatedTime )
 
-      
+        
         // const {user ,  restaurant_Name  , cuisine , estimatedTime , bannerPhoto64Image}  = req.body
     
-        if(!user || ! restaurant_Name  || !cuisine || !estimatedTime ) {
+        if(!userId || ! restaurant_Name  || !cuisines || !estimatedTime ) {
             return res.status(400)
         } else if (!bannerPhoto64Image) {
             return res.status(400)
@@ -32,16 +32,16 @@ const registerResturantComtroller = async(req,res)=>{
         }
 
         // console.log("ewwqqasdasd")
-        const userExist = await ResturantSchema.findOne({user})
+        const userExist = await ResturantSchema.findOne({userId})
         if (userExist){
             res.status(404)
         }
     //  console.log(bannerPhoto64Image)
 
         const newRseturant = await ResturantSchema({
-            user,
+            user:userId,
             restaurant_Name,
-            cuisine,
+            cuisine:cuisines,
             estimatedTime,
         })
       
