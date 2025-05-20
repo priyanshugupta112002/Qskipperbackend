@@ -318,6 +318,7 @@ exports.ResturantloginController = async (req, res) => {
         const { email, password } = req.body;
 
         // Check if email and password are provided
+       console.log(password ,email)
        
         if (!email || !password) {
             return res.status(400).json({
@@ -346,8 +347,8 @@ exports.ResturantloginController = async (req, res) => {
         console.log(userExist)
         const resturantExist = await ResturantSchema.findOne({ user: userExist._id });
 
-        const bannerphoto = resturantExist.bannerPhoto64Image.data
-        if(resturantExist.bannerPhoto64Image.data){
+        const bannerphoto = resturantExist?.bannerPhoto64Image.data
+        if(resturantExist?.bannerPhoto64Image.data){
           bannerphoto.set("Content-type", resturantExist.bannerPhoto64Image.contentType);
         }
         console.log(resturantExist)
@@ -394,7 +395,7 @@ exports.resturantRegisterController = async (req, res) => {
     }
 
     const hashPassword = await hashedPassword(password)
-
+    
     // Save user details in the verification schema
     const user = new UserSchema({
       email,
