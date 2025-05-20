@@ -334,14 +334,14 @@ exports.ResturantloginController = async (req, res) => {
             });
         }
         
-        // const samePassword = await comparePassword(password, userExist.password);
-        // console.log(samePassword)
-        // if (!samePassword) {
-        //     return res.status(401).json({
-        //         success: false,
-        //         message: "Invalid Credentials",
-        //     });
-        // }
+        const samePassword = await comparePassword(password, userExist.password);
+        console.log(samePassword)
+        if (!samePassword) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid Credentials",
+            });
+        }
         // console.log("saas")
         console.log(userExist)
         const resturantExist = await ResturantSchema.findOne({ user: userExist._id });
@@ -371,7 +371,7 @@ exports.ResturantloginController = async (req, res) => {
 
 exports.resturantRegisterController = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password  } = req.body;
     console.log(email, password);
 
     // Validate input
@@ -393,10 +393,12 @@ exports.resturantRegisterController = async (req, res) => {
       });
     }
 
+    const hashPassword = await hashedPassword(password)
+
     // Save user details in the verification schema
     const user = new UserSchema({
       email,
-      password,
+      password:hashPassword,
     });
 
     await user.save();
